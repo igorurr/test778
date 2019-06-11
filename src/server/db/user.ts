@@ -1,56 +1,62 @@
 import { createRandStr } from './helpers';
+import { IUser, ISession } from '../../types/user';
 
 // пример данного "бэкенда" не претендует на роль продуктового
 // и был разработан с целью демонстрации работы фронта
 
-const users = [
+const users: IUser[] = [
     {
-        id: 0,
+        id: 1,
         login: "admin",
-        password: "admin"
+        password: "admin",
+        email: "admin@admin.admin",
+        phone: "+75555555555",
+        firstName: "admin",
+        secondName: "adminovich",
+        thirdName: "adminov"
     }
 ];
-let newUser = 1;
+let newUser = 2;
 
-const createUser = ( user ) => {
+const createUser = ( user: IUser ) => {
     const newUserObj = { ...user, id: newUser };
     users.push( newUserObj );
     newUser++;
     return newUserObj;
 }
 
-const updateUser = ( id, user ) => {
+const updateUser = ( id: number, user: IUser ) => {
     const i = users.findIndex( ({id: uid}) => uid === id );
     users[i] = { ...users[i], ...user, id };
     return users[i];
 }
 
-export const findUser = ( id ) => {
+export const findUser = ( id: number ) => {
     return users.find( us => us.id === id );
 }
 
 
-const sessions = [];
+const sessions: ISession[] = [];
 // { token, user }
 
 
 
-const createSession = ( user ) => {
-    const token = createRandStr(user);
+const createSession = ( user: number ) => {
+    const token = createRandStr(String(user));
     sessions.push( { user, token } );
     return token;
 }
 
-export const getUserFromSession = ( token ) => {
+export const getUserFromSession = ( token: string ): number => {
     const session = sessions.find( sess => sess.token === token );
-    return session ? session.id : null;
+    return session ? session.user : 0;
 }
 
 
 
 
 
-export const login = ( login, password ) => {
+export const login = ( login: string, password: string ) => {
     const user = users.find( us => us.login === login );
 
     if( !user )
@@ -63,7 +69,7 @@ export const login = ( login, password ) => {
     return {user, token};
 }
 
-export const registration = ( user ) => {
+export const registration = ( user: IUser ) => {
     if( users.find( us => us.login === user.login ) )
         return new Error("Пользователя с таким логином уже существует");
 
@@ -73,7 +79,7 @@ export const registration = ( user ) => {
     return {newUserObj, token};
 }
 
-export const updateUserApi = ( token, user ) => {
+export const updateUserApi = ( token: string, user: IUser ) => {
     const tokenUserId = getUserFromSession( token );
     if( !tokenUserId )
         return new Error("Ошибка авторизации");
