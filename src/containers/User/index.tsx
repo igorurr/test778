@@ -1,37 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-interface IProps {
-    
-}
+interface IProps {}
 
-interface IState {
-    
-}
+interface IState {}
 
 class User extends React.Component<IProps, IState> {
+  public render() {
+    // импортим страницы: главная, юзер, блог главная, блог страница
+    return <></>;
+  }
 
-    public render() {
-
-        // импортим страницы: главная, юзер, блог главная, блог страница
-        return (
-            <>
-                
-            </>
-        );
-    }
-
-    public componentDidMount() {
-        
-    }
-    
+  public componentDidMount() {}
 }
 
-export default connect( 
-    (state: any) => ({
-
-    }), 
-    (dispatch: any) => ({
-        
-    })
-)( User );
+export default connect(
+  (state: any) => ({}),
+  (dispatch: any) => ({}),
+)(User);

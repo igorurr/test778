@@ -1,4 +1,3 @@
-
 export default {
-    apiBase: `${process.env.BASE_URL}api/v1/`
-}
+  apiBase: `http://localhost:3200/api/v1/`,
+};

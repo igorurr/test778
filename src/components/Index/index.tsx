@@ -1,11 +1,57 @@
 import * as React from "react";
+import Page from "../Page";
 
-interface IProps {
-    
-}
+interface IProps {}
 
-const Index = ( {  }: IProps ) => (
-    <p></p>
+const Index = ({  }: IProps) => (
+  <Page title="Загрузка">
+    <div>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+      <p>gdfgfgdfgdfgdfg</p>
+    </div>
+  </Page>
 );
 
 export default Index;

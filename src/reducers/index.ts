@@ -1,7 +1,9 @@
+import app from "./app";
 import blog from "./blog";
 import user from "./user";
 
 export default {
-    blog,
-    user
+  app,
+  blog,
+  user,
 };

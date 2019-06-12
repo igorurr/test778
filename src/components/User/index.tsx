@@ -1,11 +1,7 @@
 import * as React from "react";
 
-interface IProps {
-    
-}
+interface IProps {}
 
-const User = ( {  }: IProps ) => (
-    <p></p>
-);
+const User = ({  }: IProps) => <p></p>;
 
 export default User;

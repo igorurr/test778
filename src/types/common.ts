@@ -1,11 +1,11 @@
 export type IError = {} | null;
 
 interface IRequestLoaderData {
-    success: boolean,
-    error: IError
+  status: "waiting" | "pending" | "error" | "success";
+  error?: IError;
 }
 
-export type IRequestLoader = IRequestLoaderData | null;
+export type IRequestLoader = IRequestLoaderData;
 
 export type TDictionary<T> = { [key: string]: T };
 

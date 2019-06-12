@@ -1,11 +1,9 @@
 import * as React from "react";
 
-interface IProps {
-    
-}
+import Page from "../../Page";
 
-const BlogPage = ( {  }: IProps ) => (
-    <p></p>
-);
+interface IProps {}
+
+const BlogPage = ({  }: IProps) => <Page title="Загрузка">статья сссука</Page>;
 
 export default BlogPage;

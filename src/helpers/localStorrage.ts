@@ -7,5 +7,4 @@ interface ILocalStorrage {
   clearAll: () => void;
 }
 
-import * as storrage from "store/storages/localStorage";
-export default storrage as ILocalStorrage;
+export { default } from "store/storages/localStorage";
