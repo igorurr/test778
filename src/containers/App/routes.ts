@@ -5,7 +5,7 @@ import Index from "../Index";
 
 export default {
   blogPage: {
-    route: "/blog/:id",
+    route: "/blog/post/:id",
     component: BlogPage,
   },
   blog: {

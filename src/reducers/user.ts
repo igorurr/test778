@@ -18,7 +18,7 @@ import { IUserReducer } from "../types/user";
 
 const initialState: IUserReducer = {
   user: {
-    id: -1,
+    id: 0,
     login: "",
     email: "",
     phone: "",

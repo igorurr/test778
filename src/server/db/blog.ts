@@ -1,32 +1,13 @@
-import { getUserFromSession } from "./user";
-import { IPost, IPostId } from "../../types/blog";
+import { getUserFromSession, findUser } from "./user";
+import { IPostId } from "../../types/blog";
+import { IPost } from "../types/blog";
 import { createApiMethod } from "../helpers";
 
-// пример данного "бэкенда" не претендует на роль продуктового
-// и был разработан с целью демонстрации работы фронта
+import { posts as initPosts } from "../initData";
 
-const posts: IPost[] = [
-  {
-    id: 1,
-    smallContent: "1 post",
-    fullContent: "1 post full",
-    user: 0,
-  },
-  {
-    id: 2,
-    smallContent: "2 post",
-    fullContent: "2 post full",
-    user: 0,
-  },
-  {
-    id: 3,
-    smallContent: "3 post",
-    fullContent: "3 post full",
-    user: 0,
-  },
-];
+const posts: IPost[] = [...initPosts];
 
-let newPost = 4;
+let newPost = 23;
 
 const createPost = (post: IPost) => {
   const newPostObj = { ...post, id: newPost };
@@ -42,25 +23,49 @@ const updatePost = (id: IPostId, post: IPost) => {
 };
 
 export const getPosts = createApiMethod((request, response) => {
-  const { last } = request.query;
-  const count = request.query.count || 10;
+  const lastId = request.query.lastId ? Number(request.query.lastId) : null;
+  const count = request.query.count ? Number(request.query.count) : 10;
 
-  const i = last ? posts.findIndex(post => post.id === last) + 1 : 0;
+  const i = lastId ? posts.findIndex(post => post.id === lastId) + 1 : 0;
 
-  const resPosts = posts.slice(i, i + count);
+  const resPosts = posts
+    .slice(i, i + count)
+    .map(post => Object.assign({}, post));
+
+  if (resPosts.length === 0)
+    return [
+      200,
+      {
+        posts: [],
+        last: lastId,
+        nextIsset: false,
+      },
+    ];
+
   const resLast = resPosts[resPosts.length - 1].id;
 
-  return [200, { posts: resPosts, last: resLast }];
+  return [
+    200,
+    {
+      // @ts-ignore
+      posts: resPosts.map(post => ({ ...post, user: findUser(post.user) })),
+      last: resLast,
+      nextIsset: resPosts.length === count,
+    },
+  ];
 });
 
 export const getPost = createApiMethod((request, response) => {
-  const { id } = request.query;
+  const id = Number(request.params.id);
 
-  const post = posts.find(post => post.id === id);
+  const post = Object.assign({}, posts.find(post => post.id === id));
 
   if (!post) {
     return [404, { error: "Такого поста не существует" }];
   }
+
+  // @ts-ignore
+  post.user = findUser(post.user);
 
   return [200, { post }];
 });

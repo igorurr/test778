@@ -7,7 +7,7 @@ import TopBar from "../../containers/TopBar";
 import "./index.scss";
 
 interface IProps {
-  children: React.ReactChild;
+  children: React.ReactChild | React.ReactChild[];
   title: string;
 }
 

@@ -36,13 +36,17 @@ const createPostFailed = (errors: IError) => ({
 export const createPost = (data: IPost) => (dispatch: any) => {
   const token = storrage.read("token") || "";
 
-  if (!token) dispatch(createPostFailed("отсутствует токен"));
+  if (!token) {
+    dispatch(createPostFailed("отсутствует токен"));
+    return;
+  }
 
   dispatch(createPostPending());
 
   post(`${config.apiBase}blog/post`, JSON.stringify(data), { token })
-    .then(() => {
+    .then(({ post: { id } }) => {
       dispatch(createPostSuccess());
+      // редирект в пост
     })
     .catch((errors: IError) => {
       dispatch(createPostFailed(errors));
@@ -62,7 +66,10 @@ const updatePostFailed = (errors: IError) => ({
 export const updatePost = (data: IPost) => (dispatch: any) => {
   const token = storrage.read("token") || "";
 
-  if (!token) dispatch(updatePostFailed("отсутствует токен"));
+  if (!token) {
+    dispatch(updatePostFailed("отсутствует токен"));
+    return;
+  }
 
   dispatch(updatePostPending());
 
@@ -78,9 +85,11 @@ export const updatePost = (data: IPost) => (dispatch: any) => {
 const getPostsPending = () => ({
   type: GET_POSTS_PENDING,
 });
-const getPostsSuccess = (posts: IPost[]) => ({
+const getPostsSuccess = (posts: IPost[], last: number, nextIsset: boolean) => ({
   type: GET_POSTS_SUCCESS,
   posts,
+  last,
+  nextIsset,
 });
 const getPostsFailed = (errors: IError) => ({
   type: GET_POSTS_FAILED,
@@ -92,8 +101,8 @@ export const getPosts = () => (dispatch: any) => {
   const { lastPost: lastId } = store.getState().blog.postsContent;
 
   get(`${config.apiBase}blog`, { lastId, count: 10 })
-    .then(({ posts }: any) => {
-      dispatch(getPostsSuccess(posts));
+    .then(({ posts, last, nextIsset }: any) => {
+      dispatch(getPostsSuccess(posts, last, nextIsset));
     })
     .catch((errors: IError) => {
       dispatch(getPostsFailed(errors));
@@ -114,7 +123,7 @@ const getPostFailed = (errors: IError) => ({
 export const getPost = (id: IPostId) => (dispatch: any) => {
   dispatch(getPostPending());
 
-  get(`${config.apiBase}blog/post${id}`)
+  get(`${config.apiBase}blog/post/${id}`)
     .then(({ post }: any) => {
       dispatch(getPostSuccess(post));
     })

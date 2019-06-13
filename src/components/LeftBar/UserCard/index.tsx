@@ -21,64 +21,49 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import Drawer from "@material-ui/core/Drawer";
 
-import UserCard from "./UserCard";
-import LoginRegistrationForm from "../../containers/LeftBar/LoginRegistrationForm";
-
 interface IProps {
-  open: boolean;
   user: IUser;
-  isLoading: boolean;
-  onClose: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    drawerInner: {
-      width: 400,
-      maxWidth: "70vw",
-      paddingTop: 150,
-    },
-    drawerInner420px: {
-      width: "100vw",
-      maxWidth: "initial",
-    },
-    drawerClose: {
-      position: "absolute",
-      right: 15,
-      top: 15,
-    },
     card: {
       margin: 7,
+    },
+    userCard: {
+      display: "flex",
+    },
+    userLogin: {
+      lineHeight: 39,
+      marginLeft: 14,
     },
   }),
 );
 
-const LeftBar = ({ open, onClose, user, isLoading }: IProps) => {
+const UserCard = ({ user }: IProps) => {
   const classes = useStyles();
-  const match420px = useMediaQuery("(max-width:420px)");
   return (
-    <Drawer open={open} onClose={onClose} anchor="left">
-      <div
-        className={cn(
-          classes.drawerInner,
-          match420px && classes.drawerInner420px,
-        )}
-      >
-        {match420px && (
-          <IconButton
-            className={classes.drawerClose}
-            onClick={onClose}
-            aria-label="close"
+    <Card className={classes.card}>
+      <CardActionArea>
+        <CardContent className={classes.userCard}>
+          <Avatar>{user.login[0].toUpperCase()}</Avatar>
+          <Typography
+            className={classes.userLogin}
+            gutterBottom
+            variant="h5"
+            component="h2"
           >
-            <CloseIcon />
-          </IconButton>
-        )}
-        {isLoading && <p>Загрузка</p>}
-        {!isLoading && !!user.id && <UserCard user={user} />}
-        {!isLoading && !user.id && <LoginRegistrationForm />}
-      </div>
-    </Drawer>
+            {user.login}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary">
+          Logout
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 
-export default LeftBar;
+export default UserCard;

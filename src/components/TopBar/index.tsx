@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: "fixed",
+      transition: "all 0.1s linear",
       top: 0,
     },
     rootHided: {

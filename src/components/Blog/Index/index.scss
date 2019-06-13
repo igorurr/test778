@@ -1,0 +1,28 @@
+.blog-index {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    max-width: 100%;
+    flex-wrap: wrap;
+    
+    width: 900px;
+
+    @media (max-width: 1200px) {
+        width: 600px;
+    }
+
+    .blog-index-item {
+        display: flex;
+        max-width: 100%;
+        width: 400px;
+        flex-direction: column;
+        
+        @media (max-width: 1200px) {
+            width: 290px;
+        }
+
+        @media (max-width: 990px) {
+            width: 400px;
+        }
+    }
+}

@@ -2,21 +2,12 @@ import { createRandStr } from "./helpers";
 import { createApiMethod } from "../helpers";
 import { IUser, ISession } from "../../types/user";
 
+import { users as initUsers } from "../initData";
+
 // пример данного "бэкенда" не претендует на роль продуктового
 // и был разработан с целью демонстрации работы фронта
 
-const users: IUser[] = [
-  {
-    id: 1,
-    login: "admin",
-    password: "admin",
-    email: "admin@admin.admin",
-    phone: "+75555555555",
-    firstName: "admin",
-    secondName: "adminovich",
-    thirdName: "adminov",
-  },
-];
+const users: IUser[] = [...initUsers];
 let newUser = 2;
 
 const createUser = (user: IUser) => {

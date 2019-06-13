@@ -3,18 +3,22 @@ import cors from "cors";
 
 import { IRouteMethods, TRequestPreprocessHandler } from "./types";
 
+const RESPONSE_TIMEOUT = 1800;
+
 export const createApiMethod = (method: TRequestPreprocessHandler) => (
   request: any,
   response: any,
 ) => {
   response.setHeader("Content-Type", "application/json");
 
-  try {
-    const [status, resp] = method(request, response);
-    response.status(status).end(JSON.stringify(resp));
-  } catch (error) {
-    responseError(request, response, error);
-  }
+  setTimeout(() => {
+    try {
+      const [status, resp] = method(request, response);
+      response.status(status).end(JSON.stringify(resp));
+    } catch (error) {
+      responseError(request, response, error);
+    }
+  }, RESPONSE_TIMEOUT);
 };
 
 const responseNotFound = (req: any, resp: any) => {

@@ -1,9 +1,11 @@
 import { TUrlDictionary } from "../types/common";
 
 const createUrlOptions = (url: string, options: TUrlDictionary) => {
-  return `${url}?${Object.keys(options)
-    .map(key => key + "=" + options[key])
-    .join("&")}`;
+  return Object.keys(options).length === 0
+    ? url
+    : `${url}?${Object.keys(options)
+        .map(key => key + "=" + options[key])
+        .join("&")}`;
 };
 
 const defaultVals = {
@@ -12,7 +14,7 @@ const defaultVals = {
 };
 
 const postprocessFetch = (response: any) => {
-  if (response.headers.get("Content-Type").includes("json"))
+  if (!response.headers.get("Content-Type").includes("json"))
     throw new Error("is not json");
 
   if (response.status < 200 || response.status > 300) throw response.json();

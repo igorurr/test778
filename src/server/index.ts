@@ -3,6 +3,9 @@ import express from "express";
 
 import { serverRoute } from "./helpers";
 
+// пример данного "бэкенда" не претендует на роль продуктового
+// и был разработан с целью демонстрации работы фронта
+
 const app = express();
 
 const version = "1";
@@ -18,10 +21,13 @@ serverRoute(app, `${apiBase}/user/`, {
   path: db.user.updateUserApi,
 });
 
-serverRoute(app, `${apiBase}/blog/post`, {
+serverRoute(app, `${apiBase}/blog/post/:id`, {
   get: db.blog.getPost,
-  post: db.blog.createPostApi,
   path: db.blog.updatePostApi,
+});
+
+serverRoute(app, `${apiBase}/blog/post/`, {
+  post: db.blog.createPostApi,
 });
 
 serverRoute(app, `${apiBase}/blog`, {
