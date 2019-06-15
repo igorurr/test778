@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import cn from "classnames";
-import { IUser } from "../../types/user";
+import { IUser } from "../../../types/user";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -23,6 +23,7 @@ import Drawer from "@material-ui/core/Drawer";
 
 interface IProps {
   user: IUser;
+  logout: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const UserCard = ({ user }: IProps) => {
+const UserCard = ({ user, logout }: IProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -58,7 +59,7 @@ const UserCard = ({ user }: IProps) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button onClick={logout} size="small" color="primary">
           Logout
         </Button>
       </CardActions>

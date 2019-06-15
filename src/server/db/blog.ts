@@ -71,7 +71,8 @@ export const getPost = createApiMethod((request, response) => {
 });
 
 export const createPostApi = createApiMethod((request, response) => {
-  const { token, post } = request.query;
+  const { post } = request.query;
+  const { token } = request.headers;
 
   const uid = getUserFromSession(token);
 
@@ -83,7 +84,8 @@ export const createPostApi = createApiMethod((request, response) => {
 });
 
 export const updatePostApi = createApiMethod((request, response) => {
-  const { token, post } = request.query;
+  const { post } = request.query;
+  const { token } = request.headers;
 
   const uid = getUserFromSession(token);
 

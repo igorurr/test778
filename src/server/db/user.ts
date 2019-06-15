@@ -1,6 +1,6 @@
 import { createRandStr } from "./helpers";
 import { createApiMethod } from "../helpers";
-import { IUser, ISession } from "../../types/user";
+import { IUser, ISession } from "../types/user";
 
 import { users as initUsers } from "../initData";
 
@@ -23,7 +23,7 @@ const updateUser = (id: number, user: IUser) => {
   return users[i];
 };
 
-const sessions: ISession[] = [];
+let sessions: ISession[] = [];
 // { token, user }
 
 const createSession = (user: number) => {
@@ -46,7 +46,7 @@ export const getUserFromSession = (token: string): number => {
 };
 
 export const getMeData = createApiMethod((request, response) => {
-  const { token } = request.query;
+  const { token } = request.headers;
 
   const uid = getUserFromSession(token);
 
@@ -58,12 +58,12 @@ export const getMeData = createApiMethod((request, response) => {
 });
 
 export const login = createApiMethod((request, response) => {
-  const { login, password } = request.query;
+  const { login, password } = request.body;
 
   const user = findUserByLogin(login);
 
   if (!user)
-    return [403, { error: "Пользователя с таким логином не существует" }];
+    return [403, { login: "Пользователя с таким логином не существует" }];
 
   if (user.password !== password) return [403, { error: "Неверный пароль" }];
 
@@ -72,10 +72,10 @@ export const login = createApiMethod((request, response) => {
 });
 
 export const registration = createApiMethod((request, response) => {
-  const { user } = request.query;
+  const user: IUser = request.body;
 
   if (users.find(us => us.login === user.login))
-    return [403, { error: "Пользователь с таким логином уже существует" }];
+    return [403, { login: "Пользователь с таким логином уже существует" }];
 
   const newUserObj = createUser(user);
 
@@ -84,7 +84,8 @@ export const registration = createApiMethod((request, response) => {
 });
 
 export const updateUserApi = createApiMethod((request, response) => {
-  const { token, user } = request.query;
+  const { user } = request.query;
+  const { token } = request.headers;
 
   const tokenUserId = getUserFromSession(token);
   if (!tokenUserId) return [403, { error: "Ошибка авторизации" }];

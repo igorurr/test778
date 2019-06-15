@@ -1,8 +1,10 @@
 import * as React from "react";
 
+import * as yup from "yup";
+import { FormikProps, FormikErrors, FormikActions, FormikValues } from "formik";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import cn from "classnames";
-import { IUser } from "../../types/user";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -21,7 +23,16 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import Drawer from "@material-ui/core/Drawer";
 
-interface IProps {}
+interface IFormValues extends FormikValues {
+  login: string;
+  password: string;
+}
+
+interface IProps {
+  createHandleSubmit: (action: string) => () => void;
+  isLoading: boolean;
+  form: FormikProps<IFormValues>;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,32 +54,63 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const UserCard = () => {
+const LoginRegistrationForm = ({
+  createHandleSubmit,
+  isLoading,
+  form,
+}: IProps) => {
   const classes = useStyles();
-  return (
-    <Card className={classes.card}>
-      <CardContent>
-        <TextField
-          label="Login"
-          className={classes.textField}
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          className={classes.textField}
-          margin="normal"
-        />
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          Login
-        </Button>
-        <Button size="small" color="primary">
-          Registration
-        </Button>
-      </CardActions>
-    </Card>
+
+  return !isLoading ? (
+    <form>
+      <Card className={classes.card}>
+        <CardContent>
+          {form.errors && form.errors.error && <p>{form.errors.error}</p>}
+          <TextField
+            label={form.errors.login || "Login"}
+            className={classes.textField}
+            margin="normal"
+            error={Boolean(form.errors.login)}
+            name="login"
+            onChange={form.handleChange}
+            value={form.values.login}
+            InputLabelProps={Boolean(form.errors.login) ? { shrink: true } : {}}
+          />
+          <TextField
+            label={form.errors.password || "Password"}
+            className={classes.textField}
+            margin="normal"
+            error={Boolean(form.errors.password)}
+            type="password"
+            name="password"
+            onChange={form.handleChange}
+            value={form.values.password}
+            InputLabelProps={
+              Boolean(form.errors.password) ? { shrink: true } : {}
+            }
+          />
+        </CardContent>
+        <CardActions>
+          <Button
+            size="small"
+            color="primary"
+            onClick={createHandleSubmit("login")}
+          >
+            Login
+          </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={createHandleSubmit("registration")}
+          >
+            Registration
+          </Button>
+        </CardActions>
+      </Card>
+    </form>
+  ) : (
+    <p>Загрузка</p>
   );
 };
 
-export default UserCard;
+export default LoginRegistrationForm;

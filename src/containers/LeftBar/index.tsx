@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import Component from "../../components/LeftBar";
 
 import { leftBarClose } from "../../actions/app";
+import { logout as logoutAction } from "../../actions/user";
 import { IUser } from "../../types/user";
 
 interface IProps {
   open: boolean;
   user: IUser;
   close: () => void;
+  logout: () => void;
   isLoading: boolean;
 }
 
@@ -17,7 +19,7 @@ interface IState {}
 
 class LeftBar extends React.Component<IProps, IState> {
   public render() {
-    const { open, close, user, isLoading } = this.props;
+    const { open, close, user, isLoading, logout } = this.props;
 
     // импортим страницы: главная, юзер, блог главная, блог страница
     return (
@@ -26,6 +28,7 @@ class LeftBar extends React.Component<IProps, IState> {
         onClose={close}
         user={user}
         isLoading={isLoading}
+        logout={logout}
       />
     );
   }
@@ -46,5 +49,6 @@ export default connect(
   },
   (dispatch: any) => ({
     close: () => dispatch(leftBarClose()),
+    logout: () => dispatch(logoutAction()),
   }),
 )(LeftBar);

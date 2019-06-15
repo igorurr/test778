@@ -8,7 +8,7 @@ export type TRequestPreprocessHandler = (
 export interface IRouteMethods {
   get?: TRequestHandler;
   delete?: TRequestHandler;
-  path?: TRequestHandler;
+  patch?: TRequestHandler;
   post?: TRequestHandler;
   put?: TRequestHandler;
 }

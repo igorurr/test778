@@ -52,11 +52,12 @@ export const getMeData = () => (dispatch: any) => {
 
   dispatch(getMeDataPending());
 
-  get(`${config.apiBase}user/`, { token })
+  get(`${config.apiBase}user/`, {}, { token })
     .then(({ user }: any) => {
       dispatch(getMeDataSuccess(user));
     })
     .catch((errors: IError) => {
+      storrage.remove("token");
       dispatch(getMeDataFailed(errors));
     });
 };

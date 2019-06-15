@@ -1,4 +1,4 @@
-import { IUser } from "../types/user";
+import { IUser } from "./types/user";
 import { IPost } from "./types/blog";
 
 import moment from "moment";

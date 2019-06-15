@@ -29,6 +29,7 @@ interface IProps {
   user: IUser;
   isLoading: boolean;
   onClose: () => void;
+  logout: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const LeftBar = ({ open, onClose, user, isLoading }: IProps) => {
+const LeftBar = ({ open, onClose, user, isLoading, logout }: IProps) => {
   const classes = useStyles();
   const match420px = useMediaQuery("(max-width:420px)");
   return (
@@ -74,7 +75,7 @@ const LeftBar = ({ open, onClose, user, isLoading }: IProps) => {
           </IconButton>
         )}
         {isLoading && <p>Загрузка</p>}
-        {!isLoading && !!user.id && <UserCard user={user} />}
+        {!isLoading && !!user.id && <UserCard logout={logout} user={user} />}
         {!isLoading && !user.id && <LoginRegistrationForm />}
       </div>
     </Drawer>

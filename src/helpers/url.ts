@@ -13,13 +13,22 @@ const defaultVals = {
   redirect: "follow",
 };
 
+const preprocessFormData = (data: any) => {
+  const formData = new FormData();
+  Object.keys(data).forEach((key: string) =>
+    formData.append(key, (data as any)[key]),
+  );
+  return formData;
+};
+
 const postprocessFetch = (response: any) => {
   if (!response.headers.get("Content-Type").includes("json"))
     throw new Error("is not json");
 
-  if (response.status < 200 || response.status > 300) throw response.json();
-
-  return response.json();
+  return response.json().then((data: {}) => {
+    if (response.status < 200 || response.status > 300) throw data;
+    return data;
+  });
 };
 
 export const get = (
@@ -35,24 +44,24 @@ export const get = (
 
 export const post = (
   url: string,
-  options: any = {},
+  body: any = {},
   headers: TUrlDictionary = {},
 ) =>
   fetch(url, {
     ...defaultVals,
     method: "POST",
     headers,
-    options,
+    body: preprocessFormData(body),
   } as any).then(postprocessFetch);
 
 export const path = (
   url: string,
-  options: any = {},
+  body: any = {},
   headers: TUrlDictionary = {},
 ) =>
   fetch(url, {
     ...defaultVals,
     method: "PATH",
     headers,
-    options,
+    body: preprocessFormData(body),
   } as any).then(postprocessFetch);

@@ -1,7 +1,7 @@
 import db from "./db";
 import express from "express";
 
-import { serverRoute } from "./helpers";
+import { serverRoute, responseNotFound } from "./helpers";
 
 // пример данного "бэкенда" не претендует на роль продуктового
 // и был разработан с целью демонстрации работы фронта
@@ -18,12 +18,12 @@ serverRoute(app, `${apiBase}/user/session`, {
 serverRoute(app, `${apiBase}/user/`, {
   get: db.user.getMeData,
   post: db.user.registration,
-  path: db.user.updateUserApi,
+  patch: db.user.updateUserApi,
 });
 
 serverRoute(app, `${apiBase}/blog/post/:id`, {
   get: db.blog.getPost,
-  path: db.blog.updatePostApi,
+  patch: db.blog.updatePostApi,
 });
 
 serverRoute(app, `${apiBase}/blog/post/`, {
@@ -34,6 +34,8 @@ serverRoute(app, `${apiBase}/blog`, {
   get: db.blog.getPosts,
 });
 
-app.listen(3200, function() {
+app.get("*", responseNotFound);
+
+app.listen(3200, () => {
   console.log("Example server listening on port 3200!");
 });

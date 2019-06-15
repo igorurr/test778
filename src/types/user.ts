@@ -1,7 +1,7 @@
 import { IRequestLoader } from "./common";
 
 export interface IUser {
-  id: number;
+  id?: number;
   login: string;
   password?: string;
   email: string;
@@ -25,9 +25,4 @@ export interface IUserReducer {
   registrationAction: IRegistrationAction;
   updateAccountAction: IUpdateAccountAction;
   getMeDataAction: IGetMeDataction;
-}
-
-export interface ISession {
-  token: string;
-  user: number;
 }
