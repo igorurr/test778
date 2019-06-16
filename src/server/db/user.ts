@@ -63,7 +63,7 @@ export const getMeData = createApiMethod((request, response) => {
 
 export const getData = createApiMethod((request, response) => {
   const { token } = request.headers;
-  const { id } = request.query;
+  const { id } = request.params;
 
   const uid = getUserFromSession(token);
 

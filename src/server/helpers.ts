@@ -5,7 +5,7 @@ import os from "os";
 
 import { IRouteMethods, TRequestPreprocessHandler } from "./types";
 
-const RESPONSE_TIMEOUT = 1800;
+const RESPONSE_TIMEOUT = 300;
 
 var corsOptions = {
   origin: "*",

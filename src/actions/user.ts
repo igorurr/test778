@@ -1,3 +1,5 @@
+import { push } from "react-router-redux";
+
 import {
   GET_ME_DATA_PENDING,
   GET_ME_DATA_SUCCESS,
@@ -24,6 +26,8 @@ import { IError } from "../types/common";
 
 import { get, path, post } from "../helpers/url";
 import storrage from "../helpers/localStorrage";
+import { leftBarClose } from "./app";
+import routes from "../containers/App/routes";
 
 const logoutAction = () => ({
   type: LOGOUT,
@@ -55,7 +59,7 @@ export const getMeData = () => (dispatch: any) => {
 
   dispatch(getMeDataPending());
 
-  get(`${config.apiBase}user/me`, {}, { token })
+  get(`${config.apiBase}user/`, {}, { token })
     .then(({ user }: any) => {
       dispatch(getMeDataSuccess(user));
     })
@@ -86,12 +90,11 @@ export const getUserData = (id: number) => (dispatch: any) => {
 
   dispatch(getUserPending());
 
-  get(`${config.apiBase}user/`, { id }, { token })
+  get(`${config.apiBase}user/${id}`, {}, { token })
     .then(({ user }: any) => {
       dispatch(getUserSuccess(user));
     })
     .catch((errors: IError) => {
-      storrage.remove("token");
       dispatch(getUserFailed(errors));
     });
 };
@@ -114,6 +117,8 @@ export const login = (login: string, password: string) => (dispatch: any) => {
     .then(({ user, token }: any) => {
       storrage.write("token", token);
       dispatch(loginSuccess(user));
+      dispatch(leftBarClose());
+      dispatch(push(routes.userMy.link()));
     })
     .catch((errors: IError) => {
       dispatch(loginFailed(errors));
@@ -168,6 +173,8 @@ export const registration = (data: IUser) => (dispatch: any) => {
     .then(({ user, token }: any) => {
       storrage.write("token", token);
       dispatch(registrationSuccess(user));
+      dispatch(leftBarClose());
+      dispatch(push(routes.userMy.link()));
     })
     .catch((errors: IError) => {
       dispatch(registrationFailed(errors));

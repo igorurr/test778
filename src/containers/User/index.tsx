@@ -14,6 +14,7 @@ import Component from "../../components/User";
 interface IOuterProps {}
 
 interface IState {
+  wasError: boolean;
   isAuth: boolean;
   isMy: boolean;
   isLoading: boolean;
@@ -43,16 +44,18 @@ class User extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
+      wasError: false,
       isAuth: Number(props.user.id) !== 0,
       isMy: this.getPageUser() === Number(props.user.id),
       isLoading: true,
       user: {} as IUser,
     };
+    console.log(this.state, props);
   }
 
   public render() {
-    const { isAuth, ...props } = this.state;
-    if (!isAuth) return <Redirect to={routes.index.link()} />;
+    const { isAuth, wasError, ...props } = this.state;
+    if (!isAuth || wasError) return <Redirect to={routes.index.link()} />;
 
     return <Component {...props} />;
   }
@@ -64,6 +67,8 @@ class User extends React.Component<IProps, IState> {
       },
       user: { id: myId },
     } = this.props;
+
+    console.log(id, myId);
 
     return id ? Number(id) : myId;
   }
@@ -80,8 +85,10 @@ class User extends React.Component<IProps, IState> {
     { isMy }: IState,
   ) {
     const isLoading = !isMy && (status === "pending" || status === "waiting");
+    console.log(isLoading);
     return {
       isLoading,
+      wasError: !isMy && !isLoading && status === "error",
       user: isMy ? user : isLoading ? {} : anotherUser,
     };
   }
@@ -93,7 +100,7 @@ class User extends React.Component<IProps, IState> {
 
 export default connect(
   (state: IReduxState): ICompStateProps => ({
-    user: state.user.user as IUser,
+    user: (console.log(state) as any) || (state.user.user as IUser),
     getUserAction: state.user.getUserAction,
   }),
   (dispatch: any): ICompDispatchProps => ({

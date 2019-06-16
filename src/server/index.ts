@@ -15,12 +15,13 @@ serverRoute(app, `${apiBase}/user/session`, {
   post: db.user.login,
 });
 
-serverRoute(app, `${apiBase}/user/me`, {
-  get: db.user.getMeData,
-});
-
 serverRoute(app, `${apiBase}/user/:id`, {
   get: db.user.getData,
+});
+
+serverRoute(app, `${apiBase}/user/`, {
+  get: db.user.getMeData,
+  post: db.user.registration,
 });
 
 serverRoute(app, `${apiBase}/blog/post/:id`, {
@@ -36,7 +37,7 @@ serverRoute(app, `${apiBase}/blog`, {
   get: db.blog.getPosts,
 });
 
-app.get("*", responseNotFound);
+app.all("*", responseNotFound);
 
 app.listen(3200, () => {
   console.log("Example server listening on port 3200!");

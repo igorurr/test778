@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { getMeData } from "../../actions/user";
 
+import PageLoading from "../../components/PageLoading";
+
 interface IProps {
   userLoaded: boolean;
   children: React.ReactChild;
@@ -13,6 +15,8 @@ interface IState {}
 
 class PayLoader extends React.Component<IProps, IState> {
   public render() {
+    const { userLoaded } = this.props;
+    if (!userLoaded) return <PageLoading />;
     return this.props.children;
   }
 

@@ -1,41 +1,29 @@
 import * as React from "react";
 import { Provider } from "react-redux";
-import { Route, Switch } from "react-router";
+import { Router, Route, Switch } from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
 import { createBrowserHistory } from "history";
-import { ConnectedRouter } from "connected-react-router";
 
-import { createStore, store } from "../../store";
+import { store } from "../../store";
 
 import routes from "./routes";
 
 import PayLoader from "../PayLoader";
 
-interface IProps {}
+const history = syncHistoryWithStore(createBrowserHistory() as any, store);
 
-interface IState {}
-
-const history = createBrowserHistory();
-createStore(history);
-
-class App extends React.Component<IProps, IState> {
-  public render() {
-    // импортим страницы: главная, юзер, блог главная, блог страница
-    return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <PayLoader>
-            <Switch>
-              {Object.values(routes).map(({ route, component: Comp }) => (
-                <Route key={route} path={route} component={Comp} />
-              ))}
-            </Switch>
-          </PayLoader>
-        </ConnectedRouter>
-      </Provider>
-    );
-  }
-
-  public componentDidMount() {}
-}
+const App = () => (
+  <Provider store={store}>
+    <Router history={history as any}>
+      <PayLoader>
+        <Switch>
+          {Object.values(routes).map(({ route, component: Comp }) => (
+            <Route key={route} path={route} component={Comp} />
+          ))}
+        </Switch>
+      </PayLoader>
+    </Router>
+  </Provider>
+);
 
 export default App;

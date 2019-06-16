@@ -19,14 +19,14 @@ export default {
     link: () => "/blog",
     component: Blog,
   },
-  userMy: {
-    route: "/user",
-    link: () => "/user",
-    component: User,
-  },
   user: {
     route: "/user/:id",
     link: (id: number | string) => `/user/${id}`,
+    component: User,
+  },
+  userMy: {
+    route: "/user",
+    link: () => "/user",
     component: User,
   },
   index: {
