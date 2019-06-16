@@ -14,6 +14,16 @@ export const users: IUser[] = [
     secondName: "adminovich",
     thirdName: "adminov",
   },
+  {
+    id: 2,
+    login: "adminich",
+    password: "adminich",
+    email: "adminich@adminich.adminich",
+    phone: "+75544422244",
+    firstName: "adminich",
+    secondName: "adminichovich",
+    thirdName: "adminichov",
+  },
 ];
 
 export const posts: IPost[] = [
@@ -32,7 +42,7 @@ export const posts: IPost[] = [
     title: "2 post",
     smallContent: "2 post content",
     fullContent: "2 post content full",
-    user: 1,
+    user: 2,
     date: moment("06.06.2019 18:07", "DD.MM.YYYY HH:mm")
       .utc()
       .valueOf(),
@@ -52,7 +62,7 @@ export const posts: IPost[] = [
     title: "4 post",
     smallContent: "4 post content",
     fullContent: "4 post content full",
-    user: 1,
+    user: 2,
     date: moment("13.06.2010 11:11", "DD.MM.YYYY HH:mm")
       .utc()
       .valueOf(),
@@ -82,7 +92,7 @@ export const posts: IPost[] = [
     title: "1 post",
     smallContent: "7 post content",
     fullContent: "7 post content full",
-    user: 1,
+    user: 2,
     date: moment("13.06.2010 11:11", "DD.MM.YYYY HH:mm")
       .utc()
       .valueOf(),
@@ -92,7 +102,7 @@ export const posts: IPost[] = [
     title: "8 post",
     smallContent: "8 post content",
     fullContent: "8 post content full",
-    user: 1,
+    user: 2,
     date: moment("06.06.2019 18:07", "DD.MM.YYYY HH:mm")
       .utc()
       .valueOf(),

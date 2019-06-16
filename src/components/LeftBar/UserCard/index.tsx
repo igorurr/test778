@@ -24,6 +24,7 @@ import Drawer from "@material-ui/core/Drawer";
 interface IProps {
   user: IUser;
   logout: () => void;
+  goToUser: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,17 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
     },
     userLogin: {
-      lineHeight: 39,
+      lineHeight: "39px",
       marginLeft: 14,
     },
   }),
 );
 
-const UserCard = ({ user, logout }: IProps) => {
+const UserCard = ({ user, logout, goToUser }: IProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <CardActionArea>
+      <CardActionArea onClick={goToUser}>
         <CardContent className={classes.userCard}>
           <Avatar>{user.login[0].toUpperCase()}</Avatar>
           <Typography

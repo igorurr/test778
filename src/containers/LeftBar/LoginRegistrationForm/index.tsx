@@ -1,13 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as yup from "yup";
-import {
-  Formik,
-  FormikProps,
-  FormikErrors,
-  FormikActions,
-  FormikValues,
-} from "formik";
+import { Formik, FormikProps, FormikActions, FormikValues } from "formik";
 
 import Comp from "../../../components/LeftBar/LoginRegistrationForm";
 
@@ -15,23 +9,31 @@ import { login as loginAction, registration } from "../../../actions/user";
 
 import { IRequestLoader } from "../../../types/common";
 import { IRegistrationAction, ILoginAction, IUser } from "../../../types/user";
+import IReduxState from "../../../reducers/index.d";
 
 interface IFormValues extends FormikValues {
   login: string;
   password: string;
 }
 
-interface IProps {
-  login: (login: string, password: string) => void;
-  registration: (data: IUser) => void;
-  registrationAction: IRegistrationAction;
-  loginAction: ILoginAction;
-}
+interface IOuterProps {}
 
 interface IState {
   typeAction: string;
   isLoading: boolean;
 }
+
+interface ICompStateProps {
+  registrationAction: IRegistrationAction;
+  loginAction: ILoginAction;
+}
+
+interface ICompDispatchProps {
+  login: (login: string, password: string) => void;
+  registration: (data: IUser) => void;
+}
+
+type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
 
 const validationSchema = yup.object().shape({
   login: yup.string().required("Поле не должно быть пустым"),
@@ -44,7 +46,7 @@ const initialValues = {
 };
 
 class LoginRegistrationForm extends React.Component<IProps, IState> {
-  private form?: FormikProps<IFormValues> = undefined;
+  private form?: FormikProps<IFormValues>;
 
   constructor(props: IProps) {
     super(props);
@@ -103,7 +105,6 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
     oldAction: IRequestLoader,
     newAction: IRequestLoader,
   ) {
-    console.log(this.form, oldAction, newAction);
     /*
         если обоих не существует не обновляем
         если оба существует но не существует ошибок тоже не обновляем
@@ -136,7 +137,9 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
       )
     )
       this.form &&
-        this.form.setErrors(newAction.error as FormikErrors<IFormValues>);
+        this.form.setErrors(
+          newAction ? (newAction.error ? newAction.error : {}) : {},
+        );
   }
 
   public componentDidUpdate(
@@ -158,71 +161,13 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}
         validateOnChange={false}
-        render={({
-          values,
-          touched,
-          dirty,
-          errors,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-          setErrors,
-          setFieldValue,
-          setFieldTouched,
-          isSubmitting,
-          isValidating,
-          submitCount,
-          setStatus,
-          setError,
-          setSubmitting,
-          validateField,
-          resetForm,
-          submitForm,
-          setFormikState,
-          setTouched,
-          setValues,
-          setFieldError,
-          validateForm,
-          isValid,
-          initialValues,
-          ...props
-        }) => {
-          this.form = {
-            values,
-            touched,
-            dirty,
-            errors,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            handleReset,
-            setErrors,
-            setFieldValue,
-            setFieldTouched,
-            isValid,
-            initialValues,
-            isSubmitting,
-            isValidating,
-            submitCount,
-            setStatus,
-            setError,
-            setSubmitting,
-            validateField,
-            resetForm,
-            submitForm,
-            setFormikState,
-            setTouched,
-            setValues,
-            setFieldError,
-            validateForm,
-          } as FormikProps<IFormValues>;
-
+        render={props => {
+          this.form = props;
           return (
             <Comp
               {...props}
               isLoading={isLoading}
-              form={this.form as FormikProps<IFormValues>}
+              form={this.form}
               createHandleSubmit={this.createHandleSubmit}
             />
           );
@@ -233,7 +178,7 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
 }
 
 export default connect(
-  (state: any) => {
+  (state: IReduxState): ICompStateProps => {
     const { registrationAction, loginAction } = state.user;
 
     return {
@@ -241,7 +186,7 @@ export default connect(
       loginAction,
     };
   },
-  (dispatch: any) => ({
+  (dispatch: any): ICompDispatchProps => ({
     login: (login: string, pass: string) => dispatch(loginAction(login, pass)),
     registration: (data: IUser) => dispatch(registration(data)),
   }),

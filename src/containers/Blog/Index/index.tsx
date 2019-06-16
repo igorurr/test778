@@ -1,5 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { withRouter, RouteComponentProps } from "react-router";
+
+import IReduxState from "../../../reducers/index.d";
 
 import Component from "../../../components/Blog/Index";
 import { getPosts } from "../../../actions/blog";
@@ -7,14 +10,24 @@ import { IPost } from "../../../types/blog";
 
 const MAX_BOTTOM_OFFSET = 200;
 
-interface IProps {
+interface IOuterProps {}
+
+interface IState {}
+
+interface ICompStateProps {
   posts: IPost[];
   isLoading: boolean;
   nextIsset: boolean;
+}
+
+interface ICompDispatchProps {
   getPosts: () => void;
 }
 
-interface IState {}
+type IProps = IOuterProps &
+  RouteComponentProps<{}> &
+  ICompStateProps &
+  ICompDispatchProps;
 
 class Blog extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -26,7 +39,7 @@ class Blog extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { posts, isLoading, nextIsset } = this.props;
+    const { posts, isLoading } = this.props;
 
     // импортим страницы: главная, юзер, блог главная, блог страница
     return <Component posts={posts} isLoading={isLoading} />;
@@ -55,20 +68,19 @@ class Blog extends React.Component<IProps, IState> {
 }
 
 export default connect(
-  (state: any) => {
+  (state: IReduxState): ICompStateProps => {
     const {
       postsContent: { posts, nextIsset },
       getPostsAction,
     } = state.blog;
     const status = getPostsAction ? getPostsAction.status : "pending";
-    console.log(status);
     return {
       posts,
       nextIsset,
       isLoading: status === "pending" || status === "waiting",
     };
   },
-  (dispatch: any) => ({
+  (dispatch: any): ICompDispatchProps => ({
     getPosts: () => dispatch(getPosts()),
   }),
-)(Blog);
+)(withRouter<IProps>(Blog));

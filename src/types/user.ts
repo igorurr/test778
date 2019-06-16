@@ -19,10 +19,15 @@ export type IUpdateAccountAction = IRequestLoader;
 
 export type IGetMeDataction = IRequestLoader;
 
+export interface IGetUserAction extends IRequestLoader {
+  user?: IUser;
+}
+
 export interface IUserReducer {
   user: IUser;
   loginAction: ILoginAction;
   registrationAction: IRegistrationAction;
   updateAccountAction: IUpdateAccountAction;
+  getUserAction: IGetUserAction;
   getMeDataAction: IGetMeDataction;
 }

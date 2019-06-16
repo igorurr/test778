@@ -21,7 +21,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import Drawer from "@material-ui/core/Drawer";
 
-import UserCard from "./UserCard";
+import UserCard from "../../containers/LeftBar/UserCard";
 import LoginRegistrationForm from "../../containers/LeftBar/LoginRegistrationForm";
 
 interface IProps {

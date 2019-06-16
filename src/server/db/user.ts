@@ -8,7 +8,7 @@ import { users as initUsers } from "../initData";
 // и был разработан с целью демонстрации работы фронта
 
 const users: IUser[] = [...initUsers];
-let newUser = 2;
+let newUser = 3;
 
 const createUser = (user: IUser) => {
   const newUserObj = { ...user, id: newUser };
@@ -23,7 +23,7 @@ const updateUser = (id: number, user: IUser) => {
   return users[i];
 };
 
-let sessions: ISession[] = [];
+const sessions: ISession[] = [];
 // { token, user }
 
 const createSession = (user: number) => {
@@ -32,8 +32,12 @@ const createSession = (user: number) => {
   return token;
 };
 
-export const findUser = (id: number) => {
+export const findUser = (id: number): IUser | undefined => {
   return users.find(us => us.id === id);
+};
+
+export const getSimpleUser = ({ password, ...fields }: IUser): IUser => {
+  return fields;
 };
 
 export const findUserByLogin = (login: string) => {
@@ -55,6 +59,25 @@ export const getMeData = createApiMethod((request, response) => {
   }
 
   return [200, { user: findUser(uid) }];
+});
+
+export const getData = createApiMethod((request, response) => {
+  const { token } = request.headers;
+  const { id } = request.query;
+
+  const uid = getUserFromSession(token);
+
+  if (!uid) {
+    return [403, { error: "Ошибка авторизации" }];
+  }
+
+  const user = findUser(id);
+
+  if (!user) {
+    return [404, { error: "Пользователя не существует" }];
+  }
+
+  return [200, { user: getSimpleUser(user) }];
 });
 
 export const login = createApiMethod((request, response) => {

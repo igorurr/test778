@@ -15,10 +15,12 @@ serverRoute(app, `${apiBase}/user/session`, {
   post: db.user.login,
 });
 
-serverRoute(app, `${apiBase}/user/`, {
+serverRoute(app, `${apiBase}/user/me`, {
   get: db.user.getMeData,
-  post: db.user.registration,
-  patch: db.user.updateUserApi,
+});
+
+serverRoute(app, `${apiBase}/user/:id`, {
+  get: db.user.getData,
 });
 
 serverRoute(app, `${apiBase}/blog/post/:id`, {

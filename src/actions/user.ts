@@ -2,6 +2,9 @@ import {
   GET_ME_DATA_PENDING,
   GET_ME_DATA_SUCCESS,
   GET_ME_DATA_FAILED,
+  GET_USER_PENDING,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
@@ -52,13 +55,44 @@ export const getMeData = () => (dispatch: any) => {
 
   dispatch(getMeDataPending());
 
-  get(`${config.apiBase}user/`, {}, { token })
+  get(`${config.apiBase}user/me`, {}, { token })
     .then(({ user }: any) => {
       dispatch(getMeDataSuccess(user));
     })
     .catch((errors: IError) => {
       storrage.remove("token");
       dispatch(getMeDataFailed(errors));
+    });
+};
+
+const getUserPending = () => ({
+  type: GET_USER_PENDING,
+});
+const getUserSuccess = (user: IUser) => ({
+  type: GET_USER_SUCCESS,
+  user,
+});
+const getUserFailed = (errors: IError) => ({
+  type: GET_USER_FAILED,
+  errors,
+});
+export const getUserData = (id: number) => (dispatch: any) => {
+  const token = storrage.read("token") || "";
+
+  if (!token) {
+    dispatch(getUserFailed("отсутствует токен"));
+    return;
+  }
+
+  dispatch(getUserPending());
+
+  get(`${config.apiBase}user/`, { id }, { token })
+    .then(({ user }: any) => {
+      dispatch(getUserSuccess(user));
+    })
+    .catch((errors: IError) => {
+      storrage.remove("token");
+      dispatch(getUserFailed(errors));
     });
 };
 

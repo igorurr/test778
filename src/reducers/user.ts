@@ -2,6 +2,9 @@ import {
   GET_ME_DATA_PENDING,
   GET_ME_DATA_SUCCESS,
   GET_ME_DATA_FAILED,
+  GET_USER_PENDING,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
   UPDATE_ACCOUNT_PENDING,
   UPDATE_ACCOUNT_SUCCESS,
   UPDATE_ACCOUNT_FAILED,
@@ -38,6 +41,9 @@ const initialState: IUserReducer = {
   getMeDataAction: {
     status: "waiting",
   },
+  getUserAction: {
+    status: "waiting",
+  },
 };
 
 export default (
@@ -61,6 +67,28 @@ export default (
         ...state,
         user: initialState.user,
         getMeDataAction: {
+          status: "error",
+          error: action.errors,
+        },
+      };
+
+    case GET_USER_PENDING:
+      return {
+        ...state,
+        getUserAction: { status: "pending" },
+      };
+    case GET_USER_SUCCESS:
+      return {
+        ...state,
+        getUserAction: {
+          status: "success",
+          user: action.user,
+        },
+      };
+    case GET_USER_FAILED:
+      return {
+        ...state,
+        getUserAction: {
           status: "error",
           error: action.errors,
         },
