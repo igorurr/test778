@@ -150,7 +150,6 @@ export default (
     case UPDATE_ACCOUNT_FAILED:
       return {
         ...state,
-        user: initialState.user,
         updateAccountAction: {
           status: "error",
           error: action.errors,

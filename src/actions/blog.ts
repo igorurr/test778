@@ -18,9 +18,7 @@ import { IError } from "../types/common";
 
 import config from "../config";
 
-import { store } from "../store";
-
-import { get, path, post } from "../helpers/url";
+import { get, patch, post } from "../helpers/url";
 import storrage from "../helpers/localStorrage";
 
 const createPostPending = () => ({
@@ -73,7 +71,7 @@ export const updatePost = (data: IPost) => (dispatch: any) => {
 
   dispatch(updatePostPending());
 
-  path(`${config.apiBase}blog/post`, JSON.stringify(data), { token })
+  patch(`${config.apiBase}blog/post`, JSON.stringify(data), { token })
     .then(() => {
       dispatch(updatePostSuccess());
     })
@@ -95,10 +93,10 @@ const getPostsFailed = (errors: IError) => ({
   type: GET_POSTS_FAILED,
   errors,
 });
-export const getPosts = () => (dispatch: any) => {
+export const getPosts = () => (dispatch: any, getState: any) => {
   dispatch(getPostsPending());
 
-  const { lastPost: lastId } = store.getState().blog.postsContent;
+  const { lastPost: lastId } = getState().blog.postsContent;
 
   get(`${config.apiBase}blog`, { lastId, count: 10 })
     .then(({ posts, last, nextIsset }: any) => {

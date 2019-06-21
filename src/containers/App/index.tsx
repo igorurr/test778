@@ -1,20 +1,26 @@
 import * as React from "react";
 import { Provider } from "react-redux";
-import { Router, Route, Switch } from "react-router";
-import { syncHistoryWithStore } from "react-router-redux";
+import { Route, Switch } from "react-router";
+import { ConnectedRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
 
-import { store } from "../../store";
+import { createStore } from "../../store";
 
 import routes from "./routes";
 
 import PayLoader from "../PayLoader";
 
-const history = syncHistoryWithStore(createBrowserHistory() as any, store);
+import { leftBarCloseOnChangeRouter } from "../../actions/app";
+
+const history = createBrowserHistory();
+
+const store = createStore(history);
+
+history.listen(leftBarCloseOnChangeRouter(store.dispatch));
 
 const App = () => (
   <Provider store={store}>
-    <Router history={history as any}>
+    <ConnectedRouter history={history}>
       <PayLoader>
         <Switch>
           {Object.values(routes).map(({ route, component: Comp }) => (
@@ -22,7 +28,7 @@ const App = () => (
           ))}
         </Switch>
       </PayLoader>
-    </Router>
+    </ConnectedRouter>
   </Provider>
 );
 

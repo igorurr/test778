@@ -8,10 +8,19 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import FaceIcon from "@material-ui/icons/Face";
+import { IUser } from "../../types/user";
+import Home from "@material-ui/icons/Home";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 interface IProps {
   leftBarOpen: () => void;
+  goHome: () => void;
   topBarHided: boolean;
+  user: IUser;
+  titleContent: React.ReactElement;
+  goUser: () => void;
+  rightContent?: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,8 +42,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TopBar = ({ leftBarOpen, topBarHided }: IProps) => {
+const TopBar = ({
+  leftBarOpen,
+  topBarHided,
+  titleContent,
+  user,
+  goHome,
+  goUser,
+  rightContent,
+}: IProps) => {
   const classes = useStyles();
+  const match420px = useMediaQuery("(max-width:420px)");
 
   return (
     <AppBar
@@ -51,10 +69,34 @@ const TopBar = ({ leftBarOpen, topBarHided }: IProps) => {
         >
           <MenuIcon />
         </IconButton>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="Menu"
+          onClick={goHome}
+        >
+          <Home />
+        </IconButton>
         <Typography variant="h6" className={classes.title}>
-          News
+          {!match420px && titleContent}
         </Typography>
-        <Button color="inherit">Login</Button>
+        {rightContent}
+        {Number(user.id) === 0 ? (
+          <Button color="inherit" onClick={leftBarOpen}>
+            Login{" "}
+          </Button>
+        ) : (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+            onClick={goUser}
+          >
+            <FaceIcon />
+          </IconButton>
+        )}
       </Toolbar>
     </AppBar>
   );

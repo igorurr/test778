@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import cn from "classnames";
@@ -7,6 +8,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,18 +22,25 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { IPost } from "../../../types/blog";
 
 import expandWrapper from "../../../helpers/expandWrapper";
+import routes from "../../../containers/App/routes";
 
 interface IProps {
   post: IPost;
   expanded: boolean;
   setExpandClick: (value: boolean) => void;
   toggleExpandClick: () => void;
+  goToPost: () => void;
+  goToPostPath: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       margin: 7,
+    },
+    link: {
+      textDecoration: "none",
+      color: "inherit",
     },
     media: {
       height: 0,
@@ -55,6 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Post = ({
   post: {
+    id,
     smallContent,
     fullContent,
     title,
@@ -63,13 +73,20 @@ const Post = ({
   },
   expanded,
   toggleExpandClick,
+  goToPost,
+  goToPostPath,
 }: IProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar} title={login}>
+          <Avatar
+            aria-label="Recipe"
+            className={classes.avatar}
+            title={login}
+            onClick={goToPost}
+          >
             {login[0].toUpperCase()}
           </Avatar>
         }
@@ -78,19 +95,29 @@ const Post = ({
             <MoreVertIcon />
           </IconButton>
         }
-        title={title}
-        subheader={date.format("HH:mm DD.MM.YYYY")}
+        title={
+          <Link className={classes.link} to={goToPostPath}>
+            {title}
+          </Link>
+        }
+        subheader={
+          <Link className={classes.link} to={goToPostPath}>
+            {date.format("HH:mm DD.MM.YYYY")}
+          </Link>
+        }
       />
-      <CardMedia
-        className={classes.media}
-        image="/media/post-1.jpg"
-        title={title}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {smallContent}
-        </Typography>
-      </CardContent>
+      <CardActionArea onClick={goToPost}>
+        <CardMedia
+          className={classes.media}
+          image="/media/post-1.jpg"
+          title={title}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {smallContent}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
       <CardActions disableSpacing>
         <IconButton aria-label="Add to favorites">
           <FavoriteIcon />

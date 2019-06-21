@@ -11,6 +11,13 @@ export interface IUser {
   thirdName: string;
 }
 
+export interface IUserEditForm {
+  phone: string;
+  firstName: string;
+  secondName: string;
+  thirdName: string;
+}
+
 export type ILoginAction = IRequestLoader;
 
 export type IRegistrationAction = IRequestLoader;

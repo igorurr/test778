@@ -1,4 +1,4 @@
-import { push } from "react-router-redux";
+import { push } from "connected-react-router";
 
 import {
   GET_ME_DATA_PENDING,
@@ -21,10 +21,10 @@ import {
 
 import config from "../config";
 
-import { IUser } from "../types/user";
+import { IUser, IUserEditForm } from "../types/user";
 import { IError } from "../types/common";
 
-import { get, path, post } from "../helpers/url";
+import { get, patch, post } from "../helpers/url";
 import storrage from "../helpers/localStorrage";
 import { leftBarClose } from "./app";
 import routes from "../containers/App/routes";
@@ -136,7 +136,7 @@ const updateAccountFailed = (errors: IError) => ({
   type: UPDATE_ACCOUNT_FAILED,
   errors,
 });
-export const updateAccount = (data: IUser) => (dispatch: any) => {
+export const updateAccount = (data: IUserEditForm) => (dispatch: any) => {
   const token = storrage.read("token") || "";
 
   if (!token) {
@@ -146,7 +146,7 @@ export const updateAccount = (data: IUser) => (dispatch: any) => {
 
   dispatch(updateAccountPending());
 
-  path(`${config.apiBase}user`, data, { token })
+  patch(`${config.apiBase}user`, data, { token })
     .then(({ user }: any) => {
       dispatch(updateAccountSuccess(user));
     })

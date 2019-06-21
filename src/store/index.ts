@@ -5,14 +5,16 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { routerReducer } from "react-router-redux";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import { History } from "history";
 
 import reducers from "../reducers";
 
-export const store = reduxCreateStore(
-  combineReducers({
-    ...reducers,
-    routing: routerReducer,
-  }),
-  composeWithDevTools(applyMiddleware(thunk)),
-);
+export const createStore = (history: History<any>) =>
+  reduxCreateStore(
+    combineReducers({
+      ...reducers,
+      router: connectRouter(history),
+    }),
+    composeWithDevTools(applyMiddleware(thunk, routerMiddleware(history))),
+  );

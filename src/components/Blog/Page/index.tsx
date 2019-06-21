@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import cn from "classnames";
@@ -17,6 +18,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import routes from "../../../containers/App/routes";
+
 import Page from "../../Page";
 import { IPostContent } from "../../../types/blog";
 
@@ -27,8 +30,14 @@ interface IProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    card: {
-      margin: 7,
+    root: {
+      margin: "7px auto",
+      maxWidth: 900,
+      overflowX: "auto",
+    },
+    link: {
+      textDecoration: "none",
+      color: "inherit",
     },
     mediaRoot: {
       maxWidth: 600,
@@ -53,31 +62,43 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chip: {
       margin: theme.spacing(1),
+      cursor: "pointer",
     },
   }),
 );
 
 const BlogPage = ({ post, isLoading }: IProps) => {
   const classes = useStyles();
-  console.log(post);
   return (
-    <Page title={isLoading ? "Статья в блоге" : post.title}>
+    <Page
+      title={isLoading ? "Статья в блоге" : post.title}
+      titleContent={
+        <span>
+          <Link className={classes.link} to={routes.blog.link()}>
+            Блог
+          </Link>
+          {" - " + (isLoading ? "Загрузка" : post.title)}
+        </span>
+      }
+    >
       {isLoading ? (
         <p>Загрузка</p>
       ) : (
-        <Card className={classes.card}>
+        <Card className={classes.root}>
           <CardHeader
             action={
-              <Chip
-                color="primary"
-                avatar={
-                  <Avatar title={post.user.login}>
-                    {post.user.login[0].toUpperCase()}
-                  </Avatar>
-                }
-                label={post.user.login}
-                className={classes.chip}
-              />
+              <Link to={routes.user.link(Number(post.user.id))}>
+                <Chip
+                  color="primary"
+                  avatar={
+                    <Avatar title={post.user.login}>
+                      {post.user.login[0].toUpperCase()}
+                    </Avatar>
+                  }
+                  label={post.user.login}
+                  className={classes.chip}
+                />
+              </Link>
             }
             title={post.title}
             subheader={post.date.format("HH:mm DD.MM.YYYY")}

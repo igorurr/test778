@@ -4,6 +4,8 @@ import { IUser, ISession } from "../types/user";
 
 import { users as initUsers } from "../initData";
 
+import { IUserEditForm } from "../../types/user";
+
 // пример данного "бэкенда" не претендует на роль продуктового
 // и был разработан с целью демонстрации работы фронта
 
@@ -17,9 +19,9 @@ const createUser = (user: IUser) => {
   return newUserObj;
 };
 
-const updateUser = (id: number, user: IUser) => {
+const updateUser = (id: number, user: IUserEditForm) => {
   const i = users.findIndex(({ id: uid }) => uid === id);
-  users[i] = { ...users[i], ...user, id };
+  users[i] = { ...users[i], ...user };
   return users[i];
 };
 
@@ -71,7 +73,7 @@ export const getData = createApiMethod((request, response) => {
     return [403, { error: "Ошибка авторизации" }];
   }
 
-  const user = findUser(id);
+  const user = findUser(Number(id));
 
   if (!user) {
     return [404, { error: "Пользователя не существует" }];
@@ -107,7 +109,7 @@ export const registration = createApiMethod((request, response) => {
 });
 
 export const updateUserApi = createApiMethod((request, response) => {
-  const { user } = request.query;
+  const user: IUserEditForm = request.body;
   const { token } = request.headers;
 
   const tokenUserId = getUserFromSession(token);

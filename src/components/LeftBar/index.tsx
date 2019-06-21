@@ -30,6 +30,7 @@ interface IProps {
   isLoading: boolean;
   onClose: () => void;
   logout: () => void;
+  titleContent?: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,10 +52,21 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       margin: 7,
     },
+    title: {
+      marginBottom: "80",
+      textAlign: "center",
+    },
   }),
 );
 
-const LeftBar = ({ open, onClose, user, isLoading, logout }: IProps) => {
+const LeftBar = ({
+  open,
+  onClose,
+  user,
+  isLoading,
+  titleContent,
+  logout,
+}: IProps) => {
   const classes = useStyles();
   const match420px = useMediaQuery("(max-width:420px)");
   return (
@@ -65,6 +77,9 @@ const LeftBar = ({ open, onClose, user, isLoading, logout }: IProps) => {
           match420px && classes.drawerInner420px,
         )}
       >
+        <Typography variant="h6" className={classes.title}>
+          {match420px && titleContent}
+        </Typography>
         {match420px && (
           <IconButton
             className={classes.drawerClose}

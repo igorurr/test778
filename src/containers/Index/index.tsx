@@ -1,21 +1,35 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Component from "../../components/Index";
-
-interface IProps {}
+import IReduxState from "../../reducers/index.d";
+import { IUser } from "../../types/user";
 
 interface IState {}
 
+interface IOuterProps {
+  titleContent: React.ReactElement;
+}
+
+interface ICompStateProps {
+  user: IUser;
+}
+
+interface ICompDispatchProps {}
+
+type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
+
 class Index extends React.Component<IProps, IState> {
   public render() {
-    // импортим страницы: главная, юзер, блог главная, блог страница
-    return <Component />;
+    const { user } = this.props;
+    return <Component user={user} />;
   }
 
   public componentDidMount() {}
 }
 
 export default connect(
-  (state: any) => ({}),
-  (dispatch: any) => ({}),
+  ({ user: { user } }: IReduxState): ICompStateProps => ({
+    user,
+  }),
+  (dispatch: any): ICompDispatchProps => ({}),
 )(Index);

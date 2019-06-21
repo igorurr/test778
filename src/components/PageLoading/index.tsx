@@ -4,7 +4,7 @@ import Page from "../Page";
 
 const PageLoading = () => {
   return (
-    <Page title="Загрузка">
+    <Page title="Загрузка сайта">
       <p>Загрузка</p>
     </Page>
   );

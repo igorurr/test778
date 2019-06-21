@@ -89,15 +89,15 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
       );
   }
 
-  public static getDerrivedStateFromProps(
+  public static getDerivedStateFromProps(
     { registrationAction, loginAction }: IProps,
     { typeAction }: IState,
   ) {
     return {
       isLoading:
         typeAction === "login"
-          ? loginAction && loginAction.status === "waiting"
-          : registrationAction && registrationAction.status === "waiting",
+          ? loginAction && loginAction.status === "pending"
+          : registrationAction && registrationAction.status === "pending",
     };
   }
 
@@ -165,7 +165,6 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
           this.form = props;
           return (
             <Comp
-              {...props}
               isLoading={isLoading}
               form={this.form}
               createHandleSubmit={this.createHandleSubmit}

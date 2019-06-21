@@ -54,14 +54,14 @@ export const post = (
     body: preprocessFormData(body),
   } as any).then(postprocessFetch);
 
-export const path = (
+export const patch = (
   url: string,
   body: any = {},
   headers: TUrlDictionary = {},
 ) =>
   fetch(url, {
     ...defaultVals,
-    method: "PATH",
+    method: "PATCH",
     headers,
     body: preprocessFormData(body),
   } as any).then(postprocessFetch);

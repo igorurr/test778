@@ -9,16 +9,18 @@ import "./index.scss";
 interface IProps {
   children: React.ReactChild | React.ReactChild[];
   title: string;
+  titleContent?: any;
+  rightContent?: any;
 }
 
-const Page = ({ children, title }: IProps) => (
+const Page = ({ children, title, titleContent, rightContent }: IProps) => (
   <article className="page">
     <Helmet>
       <meta charSet="utf-8" />
       <title>{title}</title>
     </Helmet>
-    <TopBar />
-    <LeftBar />
+    <TopBar titleContent={titleContent || title} rightContent={rightContent} />
+    <LeftBar titleContent={titleContent || title} />
     <main className="page-content">{children}</main>
   </article>
 );

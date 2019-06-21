@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Page from "../../Page";
 
-import Post from "./Post";
+import Post from "../../../containers/Blog/Index/Post";
 
 import { IPost } from "../../../types/blog";
 
@@ -14,7 +14,10 @@ interface IProps {
 }
 
 const Blog = ({ posts, isLoading }: IProps) => (
-  <Page title="Блог">
+  <Page
+    title="Блог"
+    titleContent={<span>{`Блог ${isLoading ? " - загрузка" : ""}`}</span>}
+  >
     <article className="blog-index">
       {posts.map(post => (
         <article className="blog-index-item">

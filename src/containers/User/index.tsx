@@ -2,11 +2,14 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps, Redirect } from "react-router";
 
-import { getUserData as getUserDataAction } from "../../actions/user";
+import {
+  getUserData as getUserDataAction,
+  updateAccount,
+} from "../../actions/user";
 
 import IReduxState from "../../reducers/index.d";
-import { IUser } from "../../server/types/user";
-import { IGetUserAction } from "../../types/user";
+import { IUser } from "../../types/user";
+import { IGetUserAction, IUpdateAccountAction } from "../../types/user";
 import routes from "../App/routes";
 
 import Component from "../../components/User";
@@ -19,11 +22,13 @@ interface IState {
   isMy: boolean;
   isLoading: boolean;
   user: IUser;
+  isEditing: boolean;
 }
 
 interface ICompStateProps {
   user: IUser;
   getUserAction: IGetUserAction;
+  updateAccountAction: IUpdateAccountAction;
 }
 
 interface ICompDispatchProps {
@@ -43,21 +48,28 @@ class User extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
+    this.toggleEdit = this.toggleEdit.bind(this);
+
     this.state = {
       wasError: false,
       isAuth: Number(props.user.id) !== 0,
       isMy: this.getPageUser() === Number(props.user.id),
       isLoading: true,
       user: {} as IUser,
+      isEditing: false,
     };
-    console.log(this.state, props);
   }
 
   public render() {
     const { isAuth, wasError, ...props } = this.state;
+
     if (!isAuth || wasError) return <Redirect to={routes.index.link()} />;
 
-    return <Component {...props} />;
+    return <Component toggleEdit={this.toggleEdit} {...props} />;
+  }
+
+  private toggleEdit() {
+    this.setState(({ isEditing }) => ({ isEditing: !isEditing }));
   }
 
   private getPageUser() {
@@ -68,9 +80,7 @@ class User extends React.Component<IProps, IState> {
       user: { id: myId },
     } = this.props;
 
-    console.log(id, myId);
-
-    return id ? Number(id) : myId;
+    return id ? Number(id) : myId ? Number(myId) : 0;
   }
 
   private getUser() {
@@ -80,17 +90,37 @@ class User extends React.Component<IProps, IState> {
     if (!isMy) getUserData(this.getPageUser());
   }
 
-  public static getDerrivedStateFromProps(
+  public static getDerivedStateFromProps(
     { getUserAction: { status, user: anotherUser }, user }: IProps,
     { isMy }: IState,
   ) {
     const isLoading = !isMy && (status === "pending" || status === "waiting");
-    console.log(isLoading);
+
     return {
       isLoading,
+      isAuth: Number(user.id) !== 0,
       wasError: !isMy && !isLoading && status === "error",
       user: isMy ? user : isLoading ? {} : anotherUser,
     };
+  }
+
+  public checkUpdateAction(
+    oldAction: IUpdateAccountAction,
+    newAction: IUpdateAccountAction,
+  ) {
+    if (
+      newAction &&
+      newAction.status === "success" &&
+      oldAction &&
+      oldAction.status !== "success"
+    )
+      this.setState({ isEditing: false });
+  }
+
+  public componentDidUpdate({ updateAccountAction: oldAction }: IProps) {
+    const { updateAccountAction: newAction } = this.props;
+
+    this.checkUpdateAction(oldAction, newAction);
   }
 
   public componentDidMount() {
@@ -100,8 +130,9 @@ class User extends React.Component<IProps, IState> {
 
 export default connect(
   (state: IReduxState): ICompStateProps => ({
-    user: (console.log(state) as any) || (state.user.user as IUser),
+    user: state.user.user,
     getUserAction: state.user.getUserAction,
+    updateAccountAction: state.user.updateAccountAction,
   }),
   (dispatch: any): ICompDispatchProps => ({
     getUserData: (id: number) => dispatch(getUserDataAction(id)),

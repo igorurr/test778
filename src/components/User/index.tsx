@@ -14,7 +14,7 @@ import Chip from "@material-ui/core/Chip";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Edit from "@material-ui/icons/Edit";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -27,22 +27,24 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Page from "../Page";
 import { IUser } from "../../types/user";
 
+import TableView from "./TableView";
+
+import FormEdit from "../../containers/User/FormEdit";
+
 interface IProps {
   isMy: boolean;
   isLoading: boolean;
   user: IUser;
+  toggleEdit: () => void;
+  isEditing: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      margin: "7px auto",
       maxWidth: 900,
-      marginTop: theme.spacing(3),
       overflowX: "auto",
-    },
-    card: {
-      margin: 7,
     },
     mediaRoot: {
       maxWidth: 600,
@@ -51,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
     media: {
       height: 0,
       paddingTop: "56.25%", // 16:9
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
     },
     expand: {
       transform: "rotate(0deg)",
@@ -71,19 +76,32 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const User = ({ isMy, isLoading, user }: IProps) => {
+const User = ({ isMy, isLoading, user, toggleEdit, isEditing }: IProps) => {
   const classes = useStyles();
   return (
     <Page
       title={
         isLoading ? "Загрузка" : `${isMy ? "Я" : "Пользователь"} ${user.login}`
       }
+      rightContent={
+        isMy && (
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+            onClick={toggleEdit}
+          >
+            <Edit />
+          </IconButton>
+        )
+      }
     >
       {isLoading ? (
         <p>Загрузка</p>
       ) : (
         <>
-          <Card className={classes.card}>
+          <Card className={classes.root}>
             <CardHeader
               action={
                 <Chip
@@ -101,48 +119,7 @@ const User = ({ isMy, isLoading, user }: IProps) => {
               subheader={`${user.firstName} ${user.secondName} ${user.thirdName}`}
             />
           </Card>
-          <Paper className={classes.root}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell key="h1">Данные пользователя:</TableCell>
-                  <TableCell key="h2">Значение:</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={"firstName"}>
-                  <TableCell component="th" scope="row">
-                    Имя
-                  </TableCell>
-                  <TableCell align="center">{user.firstName}</TableCell>
-                </TableRow>
-                <TableRow key="secondName">
-                  <TableCell component="th" scope="row">
-                    Фамилия
-                  </TableCell>
-                  <TableCell align="center">{user.secondName}</TableCell>
-                </TableRow>
-                <TableRow key="thirdName">
-                  <TableCell component="th" scope="row">
-                    Отчество
-                  </TableCell>
-                  <TableCell align="center">{user.thirdName}</TableCell>
-                </TableRow>
-                <TableRow key="email">
-                  <TableCell component="th" scope="row">
-                    Email
-                  </TableCell>
-                  <TableCell align="center">{user.email}</TableCell>
-                </TableRow>
-                <TableRow key="phone">
-                  <TableCell component="th" scope="row">
-                    Телефон
-                  </TableCell>
-                  <TableCell align="center">{user.phone}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Paper>
+          {isEditing ? <FormEdit /> : <TableView user={user} />}
         </>
       )}
     </Page>

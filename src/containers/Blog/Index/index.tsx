@@ -7,6 +7,8 @@ import IReduxState from "../../../reducers/index.d";
 import Component from "../../../components/Blog/Index";
 import { getPosts } from "../../../actions/blog";
 import { IPost } from "../../../types/blog";
+import { push } from "connected-react-router";
+import routes from "../../App/routes";
 
 const MAX_BOTTOM_OFFSET = 200;
 

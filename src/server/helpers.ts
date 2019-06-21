@@ -9,7 +9,7 @@ const RESPONSE_TIMEOUT = 300;
 
 var corsOptions = {
   origin: "*",
-  methods: "POST, GET, PUT, DELETE, OPTIONS, PATH",
+  methods: "POST, GET, PUT, DELETE, OPTIONS, PATCH",
   exposedHeaders: [
     "Cache-Control",
     "Content-Language",

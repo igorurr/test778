@@ -1,17 +1,34 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 
 import Component from "../../components/TopBar";
 import { leftBarOpen } from "../../actions/app";
-
-interface IProps {
-  leftBarOpen: () => void;
-}
+import IReduxState from "../../reducers/index.d";
+import { IUser } from "../../types/user";
+import routes from "../App/routes";
 
 interface IState {
   lastScrollY: number;
   topBarHided: boolean;
 }
+
+interface IOuterProps {
+  titleContent?: any;
+  rightContent?: any;
+}
+
+interface ICompStateProps {
+  user: IUser;
+}
+
+interface ICompDispatchProps {
+  leftBarOpen: () => void;
+  goHome: () => void;
+  goUser: () => void;
+}
+
+type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
 
 class TopBar extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -28,11 +45,27 @@ class TopBar extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { leftBarOpen } = this.props;
+    const {
+      leftBarOpen,
+      user,
+      titleContent,
+      goHome,
+      goUser,
+      rightContent,
+    } = this.props;
     const { topBarHided } = this.state;
 
-    // импортим страницы: главная, юзер, блог главная, блог страница
-    return <Component leftBarOpen={leftBarOpen} topBarHided={topBarHided} />;
+    return (
+      <Component
+        leftBarOpen={leftBarOpen}
+        topBarHided={topBarHided}
+        titleContent={titleContent}
+        user={user}
+        goUser={goUser}
+        goHome={goHome}
+        rightContent={rightContent}
+      />
+    );
   }
 
   private onScroll() {
@@ -62,8 +95,12 @@ class TopBar extends React.Component<IProps, IState> {
 }
 
 export default connect(
-  (state: any) => ({}),
-  (dispatch: any) => ({
+  ({ user: { user } }: IReduxState): ICompStateProps => ({
+    user,
+  }),
+  (dispatch: any): ICompDispatchProps => ({
     leftBarOpen: () => dispatch(leftBarOpen()),
+    goHome: () => dispatch(push(routes.index.link())),
+    goUser: () => dispatch(push(routes.userMy.link())),
   }),
 )(TopBar);

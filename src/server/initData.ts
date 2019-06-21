@@ -16,9 +16,9 @@ export const users: IUser[] = [
   },
   {
     id: 2,
-    login: "adminich",
-    password: "adminich",
-    email: "adminich@adminich.adminich",
+    login: "chedmin",
+    password: "chedmin",
+    email: "chedmin@adminich.chedmin",
     phone: "+75544422244",
     firstName: "adminich",
     secondName: "adminichovich",

@@ -22,6 +22,7 @@ serverRoute(app, `${apiBase}/user/:id`, {
 serverRoute(app, `${apiBase}/user/`, {
   get: db.user.getMeData,
   post: db.user.registration,
+  patch: db.user.updateUserApi,
 });
 
 serverRoute(app, `${apiBase}/blog/post/:id`, {

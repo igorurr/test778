@@ -13,24 +13,15 @@ interface IProps {
   close: () => void;
   logout: () => void;
   isLoading: boolean;
+  titleContent?: any;
 }
 
 interface IState {}
 
 class LeftBar extends React.Component<IProps, IState> {
   public render() {
-    const { open, close, user, isLoading, logout } = this.props;
-
-    // импортим страницы: главная, юзер, блог главная, блог страница
-    return (
-      <Component
-        open={open}
-        onClose={close}
-        user={user}
-        isLoading={isLoading}
-        logout={logout}
-      />
-    );
+    const { close, ...props } = this.props;
+    return <Component {...props} onClose={close} />;
   }
 
   public componentDidMount() {}
