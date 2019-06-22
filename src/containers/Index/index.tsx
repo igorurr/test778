@@ -4,6 +4,8 @@ import Component from "../../components/Index";
 import IReduxState from "../../reducers/index.d";
 import { IUser } from "../../types/user";
 
+import opportunitiesData from "./opportunitiesData";
+
 interface IState {}
 
 interface IOuterProps {
@@ -21,7 +23,7 @@ type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
 class Index extends React.Component<IProps, IState> {
   public render() {
     const { user } = this.props;
-    return <Component user={user} />;
+    return <Component opportunitiesData={opportunitiesData} user={user} />;
   }
 
   public componentDidMount() {}

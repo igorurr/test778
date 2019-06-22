@@ -6,8 +6,17 @@ import Page from "../Page";
 import routes from "../../containers/App/routes";
 import { IUser } from "../../types/user";
 
+import Opportunities from "./Opportunities";
+import ParalaxHeader from "./ParalaxHeader";
+import StrongMan from "../../containers/Index/StrongMan";
+import { IOpportunitiesItem } from "./Opportunities/OpportunitiesItem";
+import Footer from "./Footer";
+
+import "./styles.scss";
+
 interface IProps {
   user: IUser;
+  opportunitiesData: IOpportunitiesItem[];
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,73 +28,16 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Index = ({ user }: IProps) => {
+const Index = ({ user, opportunitiesData }: IProps) => {
   const classes = useStyles();
 
   return (
-    <Page
-      title="Загрузка"
-      titleContent={
-        <>
-          <Link className={classes.link} to={routes.blog.link()}>
-            Блог
-          </Link>
-          {Number(user.id) !== 0 && (
-            <>
-              ,{" "}
-              <Link className={classes.link} to={routes.userMy.link()}>
-                Моя страница
-              </Link>
-            </>
-          )}
-        </>
-      }
-    >
+    <Page title="Загрузка" titleContent={<span>Демо версия</span>}>
       <div>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
-        <p>gdfgfgdfgdfgdfg</p>
+        <ParalaxHeader />
+        <StrongMan />
+        <Opportunities data={opportunitiesData} />
+        <Footer />
       </div>
     </Page>
   );

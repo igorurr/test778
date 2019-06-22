@@ -1,0 +1,105 @@
+.opportunities {
+    display: flex;
+    flex-direction: column;
+
+    &-items {
+        position: relative;
+    }
+
+    &-background {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 325px;
+        z-index: 2;
+        background: url('./backgr.png') no-repeat center;
+        background-size: contain;
+
+        @media (max-width: 899px) {
+            opacity: 0.1;
+            width: 100%;
+        }
+    }
+
+    &-item {
+        position: relative;
+        margin: 25px 0;
+        z-index: 4;
+        cursor: pointer;
+        height: 40px;
+
+        @media (min-width: 900px) {
+            &:nth-child(1),
+            &:nth-child(5) {
+                margin-left: 302px;
+            }
+
+            &:nth-child(2),
+            &:nth-child(4) {
+                margin-left: 350px;
+            }
+
+            &:nth-child(3) {
+                margin-left: 365px;
+            }
+        }
+
+        &-header,
+        &-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 6;
+            transition: all 0.5s linear;
+        }
+
+        &-header {
+            font-family: Raleway;
+            margin: 5px 0;
+            color: #2d0043;
+            font-size: 21px;
+
+            @media (max-width: 420px) {
+                font-size: 18px;
+            }
+        }
+    
+        &-content {
+            font-weight: normal;
+            margin: 0;
+            margin-left: 25px;
+
+            @media (max-width: 420px) {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &-item.active {
+        .opportunities-item-header {
+            transform: translateY(35px);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .opportunities-item-content {
+            transition-delay: 0.5s;
+        }
+    }
+
+    &-item:not(.active) {
+        .opportunities-item-content {
+            transform: translateY(35px);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .opportunities-item-header {
+            transition-delay: 0.5s;
+        }
+    }
+}

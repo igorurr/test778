@@ -49,7 +49,6 @@ const getMeDataFailed = (errors: IError) => ({
   errors,
 });
 export const getMeData = () => (dispatch: any) => {
-  console.log("dfgdfg");
   const token = storrage.read("token") || "";
 
   if (!token) {

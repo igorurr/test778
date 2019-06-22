@@ -25,12 +25,14 @@ interface IProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    appBar: {
       position: "fixed",
       transition: "all 0.1s linear",
       top: 0,
+      height: 64,
+      justifyContent: "center",
     },
-    rootHided: {
+    hided: {
       transform: "translate(0, -53px)",
     },
     menuButton: {
@@ -55,10 +57,7 @@ const TopBar = ({
   const match420px = useMediaQuery("(max-width:420px)");
 
   return (
-    <AppBar
-      className={cn(classes.root, topBarHided && classes.rootHided)}
-      position="static"
-    >
+    <AppBar className={cn(classes.appBar, topBarHided && classes.hided)}>
       <Toolbar>
         <IconButton
           edge="start"

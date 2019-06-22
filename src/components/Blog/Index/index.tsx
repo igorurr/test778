@@ -20,7 +20,7 @@ const Blog = ({ posts, isLoading }: IProps) => (
   >
     <article className="blog-index">
       {posts.map(post => (
-        <article className="blog-index-item">
+        <article key={post.id} className="blog-index-item">
           <Post post={post} />
         </article>
       ))}
