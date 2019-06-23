@@ -1,9 +1,5 @@
 import * as React from "react";
 
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import SentimentVeryDissatisfied from "@material-ui/icons/SentimentVeryDissatisfied";
-
 import Page from "../../Page";
 
 import Post from "../../../containers/Blog/Index/Post";

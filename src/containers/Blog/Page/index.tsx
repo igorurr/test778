@@ -5,9 +5,11 @@ import { withRouter, RouteComponentProps } from "react-router";
 import Component from "../../../components/Blog/Page";
 import { getPost } from "../../../actions/blog";
 import { IPost } from "../../../types/blog";
+import { IUser } from "../../../server/types/user";
 
 interface ICompStateProps {
   isLoading: boolean;
+  user: IUser;
   post: IPost;
 }
 
@@ -25,9 +27,9 @@ type IProps = RouteComponentProps<IRouterPageProps> &
 
 class BlogPage extends React.Component<IProps, {}> {
   public render() {
-    const { isLoading, post } = this.props;
+    const { isLoading, post, user } = this.props;
     // импортим страницы: главная, юзер, блог главная, блог страница
-    return <Component post={post} isLoading={isLoading} />;
+    return <Component post={post} isLoading={isLoading} user={user} />;
   }
 
   public componentDidMount() {
@@ -45,6 +47,7 @@ export default withRouter<{} & RouteComponentProps<IRouterPageProps>>(
 
       return {
         isLoading: status === "pending" || status === "waiting",
+        user: state.user.user,
         post: state.blog.postContent,
       };
     },

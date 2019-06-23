@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Component from "../../../components/Blog/Index/Post";
 import { push } from "connected-react-router";
 import routes from "../../App/routes";
-import IReduxState from "../../../reducers/index.d";
 import { IPost } from "../../../types/blog";
 
 interface IOuterProps {

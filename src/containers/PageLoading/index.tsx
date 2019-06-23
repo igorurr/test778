@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { getMeData } from "../../actions/user";
 
-import PageLoading from "../../components/PageLoading";
+import Component from "../../components/PageLoading";
 
 interface IProps {
   userLoaded: boolean;
@@ -11,10 +11,10 @@ interface IProps {
   getMeData: () => void;
 }
 
-class PayLoader extends React.Component<IProps, {}> {
+class PageLoading extends React.Component<IProps, {}> {
   public render() {
     const { userLoaded } = this.props;
-    if (!userLoaded) return <PageLoading />;
+    if (!userLoaded) return <Component />;
     return this.props.children;
   }
 
@@ -33,4 +33,4 @@ export default connect(
   (dispatch: any) => ({
     getMeData: () => dispatch(getMeData()),
   }),
-)(PayLoader);
+)(PageLoading);

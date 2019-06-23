@@ -11,13 +11,15 @@ import { IRequestLoader } from "../../../types/common";
 import { IRegistrationAction, ILoginAction, IUser } from "../../../types/user";
 import IReduxState from "../../../reducers/index.d";
 
+type TypeAction = "login" | "registration";
+
 interface IFormValues extends FormikValues {
   login: string;
   password: string;
 }
 
 interface IState {
-  typeAction: string;
+  typeAction: TypeAction;
   isLoading: boolean;
 }
 
@@ -91,12 +93,13 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
       });
   }
 
-  public createHandleSubmit(action: string) {
-    return () =>
+  public createHandleSubmit(action: TypeAction) {
+    return () => {
       this.setState(
         { typeAction: action },
         () => this.form && this.form.handleSubmit(),
       );
+    };
   }
 
   public checkUpdateErrors(
@@ -151,10 +154,12 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
   }
 
   public formikRender(props: FormikProps<IFormValues>) {
-    const { isLoading } = this.state;
+    const { isLoading, typeAction } = this.state;
+    this.form = props;
     return (
       <Comp
         isLoading={isLoading}
+        typeAction={typeAction}
         form={props}
         createHandleSubmit={this.createHandleSubmit}
       />

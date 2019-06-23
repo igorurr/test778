@@ -8,7 +8,7 @@ import { createStore } from "../../store";
 
 import routes from "./routes";
 
-import PayLoader from "../PayLoader";
+import PageLoading from "../PageLoading";
 
 import { leftBarCloseOnChangeRouter } from "../../actions/app";
 
@@ -24,13 +24,13 @@ const App = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Component>
-        <PayLoader>
+        <PageLoading>
           <Switch>
             {Object.values(routes).map(({ route, component: Comp }) => (
               <Route key={route} path={route} component={Comp} />
             ))}
           </Switch>
-        </PayLoader>
+        </PageLoading>
       </Component>
     </ConnectedRouter>
   </Provider>

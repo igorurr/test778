@@ -15,7 +15,7 @@ interface IState {
   isAuth: boolean;
   isMy: boolean;
   isLoading: boolean;
-  user: IUser | null;
+  user: IUser;
   isEditing: boolean;
 }
 

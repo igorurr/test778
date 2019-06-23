@@ -1,38 +1,19 @@
 import * as React from "react";
 
-import * as yup from "yup";
-import { FormikProps, FormikErrors, FormikActions, FormikValues } from "formik";
+import { FormikProps, FormikValues } from "formik";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import cn from "classnames";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import CloseIcon from "@material-ui/icons/Close";
-import Chip from "@material-ui/core/Chip";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import Edit from "@material-ui/icons/Edit";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { green } from "@material-ui/core/colors";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-import Drawer from "@material-ui/core/Drawer";
 import { IUserEditForm, IUser } from "../../types/user";
 
 interface IFormValues extends FormikValues, IUserEditForm {}
@@ -49,6 +30,18 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "7px auto",
       maxWidth: 900,
       overflowX: "auto",
+    },
+    btnWrapper: {
+      margin: theme.spacing(1),
+      position: "relative",
+    },
+    buttonProgress: {
+      color: green[500],
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginTop: -12,
+      marginLeft: -12,
     },
     userCard: {
       display: "flex",
@@ -68,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const FormEdit = ({ isLoading, form, user }: IProps) => {
   const classes = useStyles();
 
-  return !isLoading ? (
+  return (
     <Paper className={classes.root}>
       <form>
         <Table>
@@ -85,6 +78,7 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
               </TableCell>
               <TableCell align="center">
                 <TextField
+                  disabled={isLoading}
                   label={form.errors.firstName}
                   className={classes.textField}
                   margin="normal"
@@ -101,6 +95,7 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
               </TableCell>
               <TableCell align="center">
                 <TextField
+                  disabled={isLoading}
                   label={form.errors.secondName}
                   className={classes.textField}
                   margin="normal"
@@ -117,6 +112,7 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
               </TableCell>
               <TableCell align="center">
                 <TextField
+                  disabled={isLoading}
                   label={form.errors.thirdName}
                   className={classes.textField}
                   margin="normal"
@@ -141,6 +137,7 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
               </TableCell>
               <TableCell align="center">
                 <TextField
+                  disabled={isLoading}
                   label={form.errors.phone}
                   className={classes.textField}
                   margin="normal"
@@ -151,19 +148,31 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
                 />
               </TableCell>
             </TableRow>
+            <TableRow key="phone">
+              <TableCell component="th" scope="row" />
+              <TableCell align="center">
+                <div className={classes.btnWrapper}>
+                  <Button
+                    disabled={isLoading}
+                    size="small"
+                    color="primary"
+                    onClick={form.submitForm}
+                  >
+                    Edit
+                  </Button>
+                  {isLoading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </div>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
-        <Card>
-          <CardActions>
-            <Button size="small" color="primary" onClick={form.submitForm}>
-              Edit
-            </Button>
-          </CardActions>
-        </Card>
       </form>
     </Paper>
-  ) : (
-    <p>Загрузка</p>
   );
 };
 

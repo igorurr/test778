@@ -59,7 +59,7 @@ export const getPost = createApiMethod((request, response) => {
 
   if (!post) return [404, { error: "Такого поста не существует" }];
 
-  return [200, { ...post, user: findUser(post.user) }];
+  return [200, { post: { ...post, user: findUser(post.user) } }];
 });
 
 export const createPostApi = createApiMethod((request, response) => {

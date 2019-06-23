@@ -53,7 +53,6 @@ class StrongMan extends React.Component<{}, IState> {
     const dx = mouseMoveOffset.x - compPosition.x;
     const dy = mouseMoveOffset.y + topOffset - compPosition.y;
 
-    console.log(topOffset, mouseMoveOffset, compPosition, dx, dy )
     return {
       offset: { x: `${dx}px`, y: `${dy}px` },
     };

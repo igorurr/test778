@@ -84,7 +84,7 @@ export const login = createApiMethod((request, response) => {
   if (!user)
     return [403, { login: "Пользователя с таким логином не существует" }];
 
-  if (user.password !== password) return [403, { error: "Неверный пароль" }];
+  if (user.password !== password) return [403, { login: "Неверный пароль" }];
 
   const token = createSession(user.id);
   return [200, { user, token }];

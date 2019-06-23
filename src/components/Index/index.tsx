@@ -1,9 +1,6 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Page from "../Page";
-import routes from "../../containers/App/routes";
 import { IUser } from "../../types/user";
 
 import Opportunities from "./Opportunities";
@@ -19,20 +16,9 @@ interface IProps {
   opportunitiesData: IOpportunitiesItem[];
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    link: {
-      textDecoration: "none",
-      color: "inherit",
-    },
-  }),
-);
-
-const Index = ({ user, opportunitiesData }: IProps) => {
-  const classes = useStyles();
-
+const Index = ({ opportunitiesData }: IProps) => {
   return (
-    <Page title="Загрузка" titleContent={<span>Демо версия</span>}>
+    <Page title="Демо версия" titleContent={<span>Демо версия</span>}>
       <div>
         <ParalaxHeader />
         <StrongMan />

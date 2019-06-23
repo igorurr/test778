@@ -110,7 +110,7 @@ class FormEdit extends React.Component<IProps, {}> {
 
   public formikRender(props: FormikProps<IFormValues>) {
     const { user, isLoading } = this.props;
-
+    this.form = props;
     return <Comp isLoading={isLoading} form={props} user={user} />;
   }
 
