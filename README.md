@@ -6,9 +6,9 @@
 + небольшой лендинг на главной
 бэкенд: "коленочная" реализация сервера, хранящего данные в оперативной памяти (цель писать бэкенд не ставилась, просто не хотелось делать на фронте фейковые данные)
 
-[Image alt](https://pp.userapi.com/c850220/v850220540/178808/dOKAyM0BpOk.jpg)
-[Image alt](https://pp.userapi.com/c850220/v850220540/178812/CIh2SLbkqPE.jpg)
-[Image alt](https://pp.userapi.com/c850220/v850220540/17881c/mTaBdA8mf-I.jpg)
+[Image alt](https://raw.githubusercontent.com/igorurr/test778/master/screens/1.png)
+[Image alt](https://raw.githubusercontent.com/igorurr/test778/master/screens/2.png)
+[Image alt](https://raw.githubusercontent.com/igorurr/test778/master/screens/3.png)
 
 стек
 
