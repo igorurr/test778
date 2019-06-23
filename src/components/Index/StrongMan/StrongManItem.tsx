@@ -42,8 +42,8 @@ const getPositionOffset = (
 
 const preprocessPosition = (position: IPosition) =>
   Object.keys(position).reduce(
-    //@ts-ignore
-    (acc, key) => ({ ...acc, [key]: `${position[key]}%` }),
+    // @ts-ignore
+    (acc: IPosition, key: string) => ({ ...acc, [key]: `${position[key]}%` }),
     {},
   );
 
@@ -59,7 +59,7 @@ const StrongManItem = ({ link, title, position, positionOffset }: IProps) => {
       }}
     >
       <h4 className="strong-man-item-title">{title}</h4>
-      <div className="strong-man-item-point"></div>
+      <div className="strong-man-item-point" />
     </article>
   );
 

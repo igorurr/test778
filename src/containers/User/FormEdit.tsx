@@ -5,18 +5,12 @@ import { Formik, FormikProps, FormikActions, FormikValues } from "formik";
 
 import Comp from "../../components/User/FormEdit";
 
-import { login as loginAction, registration } from "../../actions/user";
-
 import { IRequestLoader } from "../../types/common";
 import { IUpdateAccountAction, IUser, IUserEditForm } from "../../types/user";
 import IReduxState from "../../reducers/index.d";
 import { updateAccount } from "../../actions/user";
 
 interface IFormValues extends FormikValues, IUserEditForm {}
-
-interface IOuterProps {}
-
-interface IState {}
 
 interface ICompStateProps {
   user: IUser;
@@ -28,7 +22,7 @@ interface ICompDispatchProps {
   update: (data: IFormValues) => void;
 }
 
-type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
+type IProps = ICompStateProps & ICompDispatchProps;
 
 const validationSchema = yup.object().shape({
   phone: yup
@@ -40,13 +34,14 @@ const validationSchema = yup.object().shape({
   thirdName: yup.string().required("Пусто"),
 });
 
-class FormEdit extends React.Component<IProps, IState> {
+class FormEdit extends React.Component<IProps, {}> {
   private form?: FormikProps<IFormValues>;
 
   constructor(props: IProps) {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formikRender = this.formikRender.bind(this);
 
     this.state = {
       isLoading: false,
@@ -113,19 +108,20 @@ class FormEdit extends React.Component<IProps, IState> {
     this.checkUpdateErrors(updateAccountAction, this.props.updateAccountAction);
   }
 
-  public render() {
+  public formikRender(props: FormikProps<IFormValues>) {
     const { user, isLoading } = this.props;
 
+    return <Comp isLoading={isLoading} form={props} user={user} />;
+  }
+
+  public render() {
     return (
       <Formik
         initialValues={this.getInitialValues()}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}
         validateOnChange={false}
-        render={props => {
-          this.form = props;
-          return <Comp isLoading={isLoading} form={this.form} user={user} />;
-        }}
+        render={this.formikRender}
       />
     );
   }

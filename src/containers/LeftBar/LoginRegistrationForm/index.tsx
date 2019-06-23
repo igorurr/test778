@@ -16,8 +16,6 @@ interface IFormValues extends FormikValues {
   password: string;
 }
 
-interface IOuterProps {}
-
 interface IState {
   typeAction: string;
   isLoading: boolean;
@@ -33,7 +31,7 @@ interface ICompDispatchProps {
   registration: (data: IUser) => void;
 }
 
-type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
+type IProps = ICompStateProps & ICompDispatchProps;
 
 const validationSchema = yup.object().shape({
   login: yup.string().required("Поле не должно быть пустым"),
@@ -46,6 +44,17 @@ const initialValues = {
 };
 
 class LoginRegistrationForm extends React.Component<IProps, IState> {
+  public static getDerivedStateFromProps(
+    { registrationAction, loginAction }: IProps,
+    { typeAction }: IState,
+  ) {
+    return {
+      isLoading:
+        typeAction === "login"
+          ? loginAction && loginAction.status === "pending"
+          : registrationAction && registrationAction.status === "pending",
+    };
+  }
   private form?: FormikProps<IFormValues>;
 
   constructor(props: IProps) {
@@ -53,6 +62,7 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
 
     this.createHandleSubmit = this.createHandleSubmit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.formikRender = this.formikRender.bind(this);
 
     this.state = {
       typeAction: "login",
@@ -87,18 +97,6 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
         { typeAction: action },
         () => this.form && this.form.handleSubmit(),
       );
-  }
-
-  public static getDerivedStateFromProps(
-    { registrationAction, loginAction }: IProps,
-    { typeAction }: IState,
-  ) {
-    return {
-      isLoading:
-        typeAction === "login"
-          ? loginAction && loginAction.status === "pending"
-          : registrationAction && registrationAction.status === "pending",
-    };
   }
 
   public checkUpdateErrors(
@@ -152,25 +150,25 @@ class LoginRegistrationForm extends React.Component<IProps, IState> {
       this.checkUpdateErrors(registrationAction, this.props.registrationAction);
   }
 
-  public render() {
+  public formikRender(props: FormikProps<IFormValues>) {
     const { isLoading } = this.state;
+    return (
+      <Comp
+        isLoading={isLoading}
+        form={props}
+        createHandleSubmit={this.createHandleSubmit}
+      />
+    );
+  }
 
+  public render() {
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={this.handleSubmit}
         validateOnChange={false}
-        render={props => {
-          this.form = props;
-          return (
-            <Comp
-              isLoading={isLoading}
-              form={this.form}
-              createHandleSubmit={this.createHandleSubmit}
-            />
-          );
-        }}
+        render={this.formikRender}
       />
     );
   }

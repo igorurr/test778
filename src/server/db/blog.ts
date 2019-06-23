@@ -28,9 +28,7 @@ export const getPosts = createApiMethod((request, response) => {
 
   const i = lastId ? posts.findIndex(post => post.id === lastId) + 1 : 0;
 
-  const resPosts = posts
-    .slice(i, i + count)
-    .map(post => Object.assign({}, post));
+  const resPosts = posts.slice(i, i + count).map(post => ({ ...post }));
 
   if (resPosts.length === 0)
     return [
@@ -47,7 +45,6 @@ export const getPosts = createApiMethod((request, response) => {
   return [
     200,
     {
-      // @ts-ignore
       posts: resPosts.map(post => ({ ...post, user: findUser(post.user) })),
       last: resLast,
       nextIsset: resPosts.length === count,
@@ -58,16 +55,11 @@ export const getPosts = createApiMethod((request, response) => {
 export const getPost = createApiMethod((request, response) => {
   const id = Number(request.params.id);
 
-  const post = Object.assign({}, posts.find(post => post.id === id));
+  const post = posts.find(post => post.id === id);
 
-  if (!post) {
-    return [404, { error: "Такого поста не существует" }];
-  }
+  if (!post) return [404, { error: "Такого поста не существует" }];
 
-  // @ts-ignore
-  post.user = findUser(post.user);
-
-  return [200, { post }];
+  return [200, { ...post, user: findUser(post.user) }];
 });
 
 export const createPostApi = createApiMethod((request, response) => {
@@ -76,9 +68,7 @@ export const createPostApi = createApiMethod((request, response) => {
 
   const uid = getUserFromSession(token);
 
-  if (!uid) {
-    return [403, { error: "Ошибка авторизации" }];
-  }
+  if (!uid) return [403, { error: "Ошибка авторизации" }];
 
   return [200, { post: createPost(post) }];
 });
@@ -89,13 +79,9 @@ export const updatePostApi = createApiMethod((request, response) => {
 
   const uid = getUserFromSession(token);
 
-  if (!uid) {
-    return [403, { error: "Ошибка авторизации" }];
-  }
+  if (!uid) return [403, { error: "Ошибка авторизации" }];
 
-  if (uid !== post.user) {
-    return [403, { error: "Это не ваш пост" }];
-  }
+  if (uid !== post.user) return [403, { error: "Это не ваш пост" }];
 
   return [200, { post: updatePost(post.id, post) }];
 });

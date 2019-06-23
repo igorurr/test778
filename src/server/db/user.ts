@@ -56,9 +56,7 @@ export const getMeData = createApiMethod((request, response) => {
 
   const uid = getUserFromSession(token);
 
-  if (!uid) {
-    return [403, { error: "Ошибка авторизации" }];
-  }
+  if (!uid) return [403, { error: "Ошибка авторизации" }];
 
   return [200, { user: findUser(uid) }];
 });
@@ -69,15 +67,11 @@ export const getData = createApiMethod((request, response) => {
 
   const uid = getUserFromSession(token);
 
-  if (!uid) {
-    return [403, { error: "Ошибка авторизации" }];
-  }
+  if (!uid) return [403, { error: "Ошибка авторизации" }];
 
   const user = findUser(Number(id));
 
-  if (!user) {
-    return [404, { error: "Пользователя не существует" }];
-  }
+  if (!user) return [404, { error: "Пользователя не существует" }];
 
   return [200, { user: getSimpleUser(user) }];
 });

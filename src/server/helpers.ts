@@ -5,9 +5,9 @@ import os from "os";
 
 import { IRouteMethods, TRequestPreprocessHandler } from "./types";
 
-const RESPONSE_TIMEOUT = 300;
+const RESPONSE_TIMEOUT = 3000;
 
-var corsOptions = {
+const corsOptions = {
   origin: "*",
   methods: "POST, GET, PUT, DELETE, OPTIONS, PATCH",
   exposedHeaders: [
@@ -22,7 +22,7 @@ var corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-var upload = multer({ dest: os.tmpdir() });
+const upload = multer({ dest: os.tmpdir() });
 
 export const createApiMethod = (method: TRequestPreprocessHandler) => (
   request: any,

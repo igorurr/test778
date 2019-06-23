@@ -2,26 +2,20 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps, Redirect } from "react-router";
 
-import {
-  getUserData as getUserDataAction,
-  updateAccount,
-} from "../../actions/user";
+import { getUserData as getUserDataAction } from "../../actions/user";
 
 import IReduxState from "../../reducers/index.d";
-import { IUser } from "../../types/user";
-import { IGetUserAction, IUpdateAccountAction } from "../../types/user";
+import { IGetUserAction, IUpdateAccountAction, IUser } from "../../types/user";
 import routes from "../App/routes";
 
 import Component from "../../components/User";
-
-interface IOuterProps {}
 
 interface IState {
   wasError: boolean;
   isAuth: boolean;
   isMy: boolean;
   isLoading: boolean;
-  user: IUser;
+  user: IUser | null;
   isEditing: boolean;
 }
 
@@ -39,57 +33,11 @@ interface IRouterPageProps {
   id?: string;
 }
 
-type IProps = IOuterProps &
-  RouteComponentProps<IRouterPageProps> &
+type IProps = RouteComponentProps<IRouterPageProps> &
   ICompStateProps &
   ICompDispatchProps;
 
 class User extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.toggleEdit = this.toggleEdit.bind(this);
-
-    this.state = {
-      wasError: false,
-      isAuth: Number(props.user.id) !== 0,
-      isMy: this.getPageUser() === Number(props.user.id),
-      isLoading: true,
-      user: {} as IUser,
-      isEditing: false,
-    };
-  }
-
-  public render() {
-    const { isAuth, wasError, ...props } = this.state;
-
-    if (!isAuth || wasError) return <Redirect to={routes.index.link()} />;
-
-    return <Component toggleEdit={this.toggleEdit} {...props} />;
-  }
-
-  private toggleEdit() {
-    this.setState(({ isEditing }) => ({ isEditing: !isEditing }));
-  }
-
-  private getPageUser() {
-    const {
-      match: {
-        params: { id },
-      },
-      user: { id: myId },
-    } = this.props;
-
-    return id ? Number(id) : myId ? Number(myId) : 0;
-  }
-
-  private getUser() {
-    const { getUserData } = this.props;
-    const { isMy } = this.state;
-
-    if (!isMy) getUserData(this.getPageUser());
-  }
-
   public static getDerivedStateFromProps(
     { getUserAction: { status, user: anotherUser }, user }: IProps,
     { isMy }: IState,
@@ -102,6 +50,37 @@ class User extends React.Component<IProps, IState> {
       wasError: !isMy && !isLoading && status === "error",
       user: isMy ? user : isLoading ? {} : anotherUser,
     };
+  }
+  constructor(props: IProps) {
+    super(props);
+
+    this.toggleEdit = this.toggleEdit.bind(this);
+
+    this.state = {
+      wasError: false,
+      isAuth: Number(props.user.id) !== 0,
+      isMy: this.getPageUser() === Number(props.user.id),
+      isLoading: true,
+      user: {
+        id: 0,
+        login: "",
+        password: "",
+        email: "",
+        phone: "",
+        firstName: "",
+        secondName: "",
+        thirdName: "",
+      },
+      isEditing: false,
+    };
+  }
+
+  public render() {
+    const { isAuth, wasError, ...props } = this.state;
+
+    if (!isAuth || wasError) return <Redirect to={routes.index.link()} />;
+
+    return <Component toggleEdit={this.toggleEdit} {...props} />;
   }
 
   public checkUpdateAction(
@@ -125,6 +104,28 @@ class User extends React.Component<IProps, IState> {
 
   public componentDidMount() {
     this.getUser();
+  }
+
+  private toggleEdit() {
+    this.setState(({ isEditing }) => ({ isEditing: !isEditing }));
+  }
+
+  private getPageUser() {
+    const {
+      match: {
+        params: { id },
+      },
+      user: { id: myId },
+    } = this.props;
+
+    return id ? Number(id) : myId ? Number(myId) : 0;
+  }
+
+  private getUser() {
+    const { getUserData } = this.props;
+    const { isMy } = this.state;
+
+    if (!isMy) getUserData(this.getPageUser());
   }
 }
 

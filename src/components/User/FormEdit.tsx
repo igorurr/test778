@@ -131,7 +131,9 @@ const FormEdit = ({ isLoading, form, user }: IProps) => {
               <TableCell component="th" scope="row">
                 Email
               </TableCell>
-              <TableCell align="center">{user.email}</TableCell>
+              <TableCell align="center">
+                {user.email || "Могут редактировать только админы"}
+              </TableCell>
             </TableRow>
             <TableRow key="phone">
               <TableCell component="th" scope="row">

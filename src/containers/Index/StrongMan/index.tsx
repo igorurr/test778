@@ -2,14 +2,14 @@ import * as React from "react";
 
 import Component from "../../../components/Index/StrongMan";
 
-import withTopOffset from "../../../hoooks/withTopOffset";
+// import withTopOffset from "../../../hoooks/withTopOffset";
 
 import routes from "../../App/routes";
 
 import getData from "./data";
-import withMouseMove, {
+/*import withMouseMove, {
   IPositionOffset as IMouseMoveIPositionOffset,
-} from "../../../hoooks/withMouseMove";
+} from "../../../hoooks/withMouseMove";*/
 import {
   IPositionOffset as IStrongManPositionOffset,
   IStrongManItem,
@@ -20,21 +20,21 @@ interface IPosition {
   y: number;
 }
 
-interface IProps {
-  /*topOffset: number;
-  mouseMoveOffset: IMouseMoveIPositionOffset;*/
-}
+/*interface IProps {
+  topOffset: number;
+  mouseMoveOffset: IMouseMoveIPositionOffset;
+}*/
 
 interface IState {
   offset: IStrongManPositionOffset;
   compPosition?: IPosition;
 }
 
-class StrongMan extends React.Component<IProps, IState> {
+class StrongMan extends React.Component<{}, IState> {
   private compRef: any;
   private data: Readonly<IStrongManItem[]>;
 
-  constructor(props: IProps) {
+  constructor(props: {}) {
     super(props);
     this.compRef = React.createRef();
     this.data = getData(routes);
@@ -85,5 +85,5 @@ class StrongMan extends React.Component<IProps, IState> {
   }
 }
 
-//export default withTopOffset()(withMouseMove()(StrongMan));
+// export default withTopOffset()(withMouseMove()(StrongMan));
 export default StrongMan;

@@ -4,15 +4,11 @@ import { withRouter, RouteComponentProps } from "react-router";
 
 import Component from "../../../components/Blog/Page";
 import { getPost } from "../../../actions/blog";
-import { IPostContent } from "../../../types/blog";
-
-interface IOuterProps {}
-
-interface IState {}
+import { IPost } from "../../../types/blog";
 
 interface ICompStateProps {
   isLoading: boolean;
-  post: IPostContent;
+  post: IPost;
 }
 
 interface ICompDispatchProps {
@@ -23,12 +19,11 @@ interface IRouterPageProps {
   id?: string;
 }
 
-type IProps = IOuterProps &
-  RouteComponentProps<IRouterPageProps> &
+type IProps = RouteComponentProps<IRouterPageProps> &
   ICompStateProps &
   ICompDispatchProps;
 
-class BlogPage extends React.Component<IProps, IState> {
+class BlogPage extends React.Component<IProps, {}> {
   public render() {
     const { isLoading, post } = this.props;
     // импортим страницы: главная, юзер, блог главная, блог страница
@@ -41,7 +36,7 @@ class BlogPage extends React.Component<IProps, IState> {
   }
 }
 
-export default withRouter<IOuterProps & RouteComponentProps<IRouterPageProps>>(
+export default withRouter<{} & RouteComponentProps<IRouterPageProps>>(
   connect(
     (state: any): ICompStateProps => {
       const status = state.blog.getPostAction

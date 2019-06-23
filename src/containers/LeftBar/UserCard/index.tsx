@@ -22,14 +22,14 @@ class UserCard extends React.Component<IWithrouterProps, {}> {
     this.goToUser = this.goToUser.bind(this);
   }
 
-  private goToUser() {
-    const { history } = this.props;
-    history.push(routes.userMy.link());
-  }
-
   public render() {
     const { user, logout } = this.props;
     return <Component user={user} logout={logout} goToUser={this.goToUser} />;
+  }
+
+  private goToUser() {
+    const { history } = this.props;
+    history.push(routes.userMy.link());
   }
 }
 

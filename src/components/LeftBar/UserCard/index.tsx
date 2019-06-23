@@ -51,7 +51,7 @@ const UserCard = ({ user, logout, goToUser }: IProps) => {
           <Avatar>{user.login[0].toUpperCase()}</Avatar>
           <Typography
             className={classes.userLogin}
-            gutterBottom
+            gutterBottom={true}
             variant="h5"
             component="h2"
           >

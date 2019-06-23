@@ -16,15 +16,11 @@ interface IProps {
   titleContent?: any;
 }
 
-interface IState {}
-
-class LeftBar extends React.Component<IProps, IState> {
+class LeftBar extends React.Component<IProps, {}> {
   public render() {
     const { close, ...props } = this.props;
     return <Component {...props} onClose={close} />;
   }
-
-  public componentDidMount() {}
 }
 
 export default connect(

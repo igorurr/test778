@@ -10,8 +10,9 @@ interface IProps {
 const ParalaxHeader = ({ data }: IProps) => {
   const [itemOpened, setItemOpened] = React.useState<null | number>(null);
 
-  const toggleItem = (item: number) =>
+  const toggleItem = (item: number) => () =>
     setItemOpened(item === itemOpened ? null : item);
+
   return (
     <article className="opportunities index-container">
       <h2 className="opportunities-header index-container-header">
@@ -23,7 +24,7 @@ const ParalaxHeader = ({ data }: IProps) => {
             key={item.id}
             data={item}
             opened={item.id === itemOpened}
-            toggle={() => toggleItem(item.id)}
+            toggle={toggleItem(item.id)}
           />
         ))}
         <div className="opportunities-background" />

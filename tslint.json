@@ -5,9 +5,11 @@
         "tslint-react",
         "tslint:recommended",
         "tslint-config-prettier",
+        "tslint-react-hooks",
         "tslint-plugin-prettier"
     ],
     "rules": {
+        "no-submodule-imports": [false, "@material-ui"],
         "no-var-requires": false,
         "no-shadowed-variable": false,
         "variable-name": [true, "allow-trailing-underscore", "allow-pascal-case", "ban-keywords"],
@@ -15,6 +17,7 @@
         "comment-format": [true, "check-space"],
         "curly": [true, "as-needed", "multi-line"],
         "eofline": true,
+        "react-hooks-nesting": "error",
         "prettier": true,
         "indent": [true, "spaces"],
         "array-bracket-spacing": [
@@ -34,7 +37,7 @@
         "jsdoc-format": false,
         "no-string-literal": false,
         "max-classes-per-file": [true, 5],
-        "max-line-length": [true, 100],
+        "max-line-length": false,
         "no-consecutive-blank-lines": [false],
         "no-console": [false],
         "no-duplicate-variable": true,

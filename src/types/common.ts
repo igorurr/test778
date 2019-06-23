@@ -7,6 +7,8 @@ interface IRequestLoaderData {
 
 export type IRequestLoader = IRequestLoaderData;
 
-export type TDictionary<T> = { [key: string]: T };
+export interface IDictionary<T> {
+  [key: string]: T;
+}
 
-export type TUrlDictionary = TDictionary<string | number | boolean>;
+export type TUrlDictionary = IDictionary<string | number | boolean>;

@@ -1,19 +1,26 @@
 import * as React from "react";
 
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import SentimentVeryDissatisfied from "@material-ui/icons/SentimentVeryDissatisfied";
+
 import Page from "../../Page";
 
 import Post from "../../../containers/Blog/Index/Post";
 
 import { IPost } from "../../../types/blog";
 
+import BlogMessage from "./BlogMessage";
+
 import "./index.scss";
 
 interface IProps {
   posts: IPost[];
   isLoading: boolean;
+  nextIsset: boolean;
 }
 
-const Blog = ({ posts, isLoading }: IProps) => (
+const Blog = ({ posts, isLoading, nextIsset }: IProps) => (
   <Page
     title="Блог"
     titleContent={<span>{`Блог ${isLoading ? " - загрузка" : ""}`}</span>}
@@ -24,10 +31,9 @@ const Blog = ({ posts, isLoading }: IProps) => (
           <Post post={post} />
         </article>
       ))}
-      {isLoading && (
-        <article className="blog-index-loading">
-          <p>Загрузка</p>
-        </article>
+      {isLoading && <BlogMessage message="Загрузка" />}
+      {!nextIsset && (
+        <BlogMessage message="Больше у нас постов нет, к сожалению" />
       )}
     </article>
   </Page>

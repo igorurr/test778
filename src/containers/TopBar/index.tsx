@@ -68,6 +68,15 @@ class TopBar extends React.Component<IProps, IState> {
     );
   }
 
+  public componentDidMount() {
+    this.updateLastScrollY();
+    window.addEventListener("scroll", this.onScroll);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+  }
+
   private onScroll() {
     const { lastScrollY } = this.state;
     const dsy = window.scrollY - lastScrollY;
@@ -82,15 +91,6 @@ class TopBar extends React.Component<IProps, IState> {
 
   private updateTopBarHided(value: boolean) {
     this.setState({ topBarHided: value });
-  }
-
-  public componentDidMount() {
-    this.updateLastScrollY();
-    window.addEventListener("scroll", this.onScroll);
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener("scroll", this.onScroll);
   }
 }
 

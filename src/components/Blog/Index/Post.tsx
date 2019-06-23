@@ -21,14 +21,13 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { IPost } from "../../../types/blog";
 
-import expandWrapper from "../../../helpers/expandWrapper";
-import routes from "../../../containers/App/routes";
+import useExpand from "../../../hoooks/useExpand";
 
 interface IProps {
   post: IPost;
-  expanded: boolean;
+  /*expanded: boolean;
   setExpandClick: (value: boolean) => void;
-  toggleExpandClick: () => void;
+  toggleExpandClick: () => void;*/
   goToPost: () => void;
   goToPostPath: string;
 }
@@ -64,19 +63,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Post = ({
   post: {
-    id,
     smallContent,
     fullContent,
     title,
     date,
     user: { login },
   },
-  expanded,
-  toggleExpandClick,
   goToPost,
   goToPostPath,
 }: IProps) => {
   const classes = useStyles();
+  const [expanded, setExpanded, toggleExpandClick] = useExpand();
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -118,7 +115,7 @@ const Post = ({
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing={true}>
         <IconButton aria-label="Add to favorites">
           <FavoriteIcon />
         </IconButton>
@@ -136,11 +133,11 @@ const Post = ({
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout="auto" unmountOnExit={true}>
         <CardContent>{fullContent}</CardContent>
       </Collapse>
     </Card>
   );
 };
 
-export default expandWrapper(Post);
+export default Post;

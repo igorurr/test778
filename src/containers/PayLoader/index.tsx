@@ -11,9 +11,7 @@ interface IProps {
   getMeData: () => void;
 }
 
-interface IState {}
-
-class PayLoader extends React.Component<IProps, IState> {
+class PayLoader extends React.Component<IProps, {}> {
   public render() {
     const { userLoaded } = this.props;
     if (!userLoaded) return <PageLoading />;

@@ -6,7 +6,7 @@ import {
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { connectRouter, routerMiddleware } from "connected-react-router";
-import { History } from "history";
+import { History } from "history"; // tslint:disable-line
 
 import reducers from "../reducers";
 

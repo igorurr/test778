@@ -2,7 +2,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router";
 import { ConnectedRouter } from "connected-react-router";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory } from "history"; // tslint:disable-line
 
 import { createStore } from "../../store";
 

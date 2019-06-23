@@ -11,17 +11,13 @@ interface IOuterProps {
   post: IPost;
 }
 
-interface IState {}
-
-interface ICompStateProps {}
-
 interface ICompDispatchProps {
   goToPost: () => void;
 }
 
-type IProps = IOuterProps & ICompStateProps & ICompDispatchProps;
+type IProps = IOuterProps & ICompDispatchProps;
 
-class Post extends React.Component<IProps, IState> {
+class Post extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
 

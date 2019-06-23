@@ -27,11 +27,9 @@ export interface IPostsContent {
   nextIsset: boolean;
 }
 
-export interface IPostContent extends IPost {}
-
 export interface IBlogReducer {
   postsContent: IPostsContent;
-  postContent: IPostContent | null;
+  postContent: IPost | null;
   createPostAction: ICreatePostAction | null;
   updatePostAction: IUpdatePostAction | null;
   getPostsAction: IGetPostsAction | null;

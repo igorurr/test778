@@ -21,11 +21,11 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import routes from "../../../containers/App/routes";
 
 import Page from "../../Page";
-import { IPostContent } from "../../../types/blog";
+import { IPost } from "../../../types/blog";
 
 interface IProps {
   isLoading: boolean;
-  post: IPostContent;
+  post: IPost;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -111,7 +111,7 @@ const BlogPage = ({ post, isLoading }: IProps) => {
             />
           </CardContent>
           <CardContent>{post.fullContent}</CardContent>
-          <CardActions disableSpacing>
+          <CardActions disableSpacing={true}>
             <IconButton aria-label="Add to favorites">
               <FavoriteIcon />
             </IconButton>
