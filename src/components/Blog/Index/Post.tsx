@@ -73,7 +73,7 @@ const Post = ({
   goToPostPath,
 }: IProps) => {
   const classes = useStyles();
-  const [expanded, setExpanded, toggleExpandClick] = useExpand();
+  const [expanded, toggleExpandClick] = useExpand();
   return (
     <Card className={classes.card}>
       <CardHeader
